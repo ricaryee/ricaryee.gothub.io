@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificación: Energía para crecer, Gas para producir, Minería legal para prosperar</title>
+    
+    <!-- Scripts y Fuentes -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --turquesa: #00CED1;
+            --azul-marino: #000080;
+            --azul-profundo: #00004d;
+            --gris-claro: #f8fafc;
+        }
+        
+        body { font-family: 'Montserrat', sans-serif; }
+        h1, h2, h3, .font-serif { font-family: 'Montserrat', sans-serif; font-weight: 800; }
+        .quote-font { font-family: 'Playfair Display', serif; }
+        
+        .bg-turquesa { background-color: var(--turquesa); }
+        .text-turquesa { color: var(--turquesa); }
+        .bg-azul-marino { background-color: var(--azul-marino); }
+        .text-azul-marino { color: var(--azul-marino); }
+        
+        .gradiente-hero {
+            background: linear-gradient(135deg, var(--azul-marino) 0%, var(--azul-profundo) 100%);
+        }
+        
+        .seccion-diagonal {
+            clip-path: polygon(0 0, 100% 5%, 100% 100%, 0 95%);
+        }
+
+        .tarjeta-curso:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 128, 0.1);
+        }
+
+        .active-curso {
+            border-left-color: var(--turquesa) !important;
+            background-color: white !important;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-in {
+            animation: fadeIn 0.4s ease forwards;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 leading-relaxed">
+
+    <!-- Navegación Superior -->
+    <nav class="bg-white shadow-xl sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center h-24">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-azul-marino p-3 rounded-xl shadow-lg">
+                        <i class="fas fa-charging-station text-turquesa text-2xl"></i>
+                    </div>
+                    <div>
+                        <span class="block text-azul-marino font-black text-xl leading-none uppercase">Certificación</span>
+                        <span class="text-[10px] text-slate-500 font-bold tracking-[0.2em]">MINERO-ENERGÉTICA 2026</span>
+                    </div>
+                </div>
+                <div class="hidden lg:flex space-x-8 items-center text-sm">
+                    <a href="#diagnostico" class="text-azul-marino font-bold hover:text-turquesa transition">Diagnóstico</a>
+                    <a href="#decalogo" class="text-azul-marino font-bold hover:text-turquesa transition">Estrategia</a>
+                    <a href="#cursos" class="text-azul-marino font-bold hover:text-turquesa transition">Cursos</a>
+                    <a href="#comunicacion" class="text-azul-marino font-bold hover:text-turquesa transition">Mensajes</a>
+                    <button class="bg-turquesa text-azul-marino font-extrabold px-8 py-3 rounded-full hover:shadow-lg transition transform hover:scale-105">
+                        CAMPUS VIRTUAL
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Principal -->
+    <header class="gradiente-hero relative text-white pt-24 pb-48 px-4 overflow-hidden">
+        <div class="absolute top-0 right-0 w-1/3 h-full bg-turquesa opacity-5 blur-3xl rounded-full translate-x-1/2"></div>
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="max-w-3xl">
+                <div class="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20 mb-8">
+                    <span class="w-2 h-2 bg-turquesa rounded-full animate-pulse"></span>
+                    <span class="text-xs font-bold uppercase tracking-widest">Programa de Gobierno 2026-2030</span>
+                </div>
+                <h1 class="text-5xl md:text-7xl font-black mb-8 leading-[1.1]">
+                    Energía para <span class="text-turquesa">crecer.</span><br>
+                    Gas para producir.<br>
+                    Minería legal para <span class="text-turquesa">prosperar.</span>
+                </h1>
+                <p class="text-xl text-slate-300 mb-10 leading-relaxed font-light">
+                    Colombia no está condenada al apagón. Esta certificación técnica operacionaliza la seguridad energética y la competitividad industrial de la nación.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#cursos" class="bg-turquesa text-azul-marino font-black px-10 py-5 rounded-2xl shadow-2xl hover:bg-white transition text-center">
+                        EXPLORAR RUTA TÉCNICA
+                    </a>
+                    <a href="#diagnostico" class="border-2 border-white/30 hover:bg-white/10 px-10 py-5 rounded-2xl font-bold transition text-center">
+                        VER DIAGNÓSTICO
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mensaje al País -->
+    <section class="max-w-5xl mx-auto px-4 -mt-24 relative z-20 mb-32">
+        <div class="bg-white rounded-[40px] shadow-2xl p-10 md:p-16 border-b-[12px] border-azul-marino">
+            <div class="flex flex-col md:flex-row items-start gap-12">
+                <div class="md:w-1/3 flex flex-col items-center text-center">
+                    <div class="w-48 h-48 bg-slate-100 rounded-full border-4 border-turquesa mb-4 overflow-hidden flex items-center justify-center">
+                        <i class="fas fa-user-tie text-azul-marino text-6xl"></i>
+                    </div>
+                    <h3 class="text-azul-marino font-black text-xl">Abelardo De La Espriella</h3>
+                    <p class="text-turquesa font-bold text-sm tracking-widest">VISIÓN ESTRATÉGICA</p>
+                </div>
+                <div class="md:w-2/3">
+                    <i class="fas fa-quote-left text-turquesa text-5xl mb-6 opacity-30"></i>
+                    <p class="quote-font text-2xl md:text-3xl text-slate-700 italic mb-8 leading-relaxed">
+                        "Lo que hoy vivimos es el resultado de decisiones equivocadas y de una ruptura de confianza que paralizó inversión... Este programa propone un giro pragmático: seguridad energética, tarifas razonables y un Estado que decide a tiempo."
+                    </p>
+                    <div class="h-1 w-24 bg-turquesa rounded-full"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Diagnóstico: Las Tres Crisis -->
+    <section id="diagnostico" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl md:text-5xl font-black text-azul-marino uppercase">El Estado de la Nación</h2>
+                <div class="h-1.5 w-32 bg-turquesa mx-auto mt-6 rounded-full"></div>
+                <p class="mt-8 text-slate-500 max-w-2xl mx-auto font-medium">Tres crisis se cruzan y se potencian. El diagnóstico técnico es la base de nuestra decisión estratégica.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Crisis 1 -->
+                <div class="bg-slate-50 p-10 rounded-[32px] border border-slate-100 relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition">
+                        <i class="fas fa-fire text-9xl"></i>
+                    </div>
+                    <div class="bg-azul-marino w-14 h-14 rounded-2xl flex items-center justify-center text-turquesa text-2xl mb-8 shadow-lg">
+                        <i class="fas fa-gas-pump"></i>
+                    </div>
+                    <h4 class="text-2xl font-black text-azul-marino mb-4">Gas y Autosuficiencia</h4>
+                    <p class="text-slate-600 mb-6 text-sm">Caída crítica de producción y reservas. Se proyecta un faltante superior al 50% para 2030.</p>
+                    <div class="space-y-3">
+                        <div class="flex justify-between text-xs font-bold border-b pb-2">
+                            <span>Déficit 2026</span>
+                            <span class="text-red-600">34.4%</span>
+                        </div>
+                        <div class="flex justify-between text-xs font-bold border-b pb-2">
+                            <span>Vida útil reservas</span>
+                            <span class="text-slate-800">5.9 años</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Crisis 2 -->
+                <div class="bg-slate-50 p-10 rounded-[32px] border border-slate-100 relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition">
+                        <i class="fas fa-bolt text-9xl"></i>
+                    </div>
+                    <div class="bg-azul-marino w-14 h-14 rounded-2xl flex items-center justify-center text-turquesa text-2xl mb-8 shadow-lg">
+                        <i class="fas fa-money-bill-trend-up"></i>
+                    </div>
+                    <h4 class="text-2xl font-black text-azul-marino mb-4">Liquidez y Tarifas</h4>
+                    <p class="text-slate-600 mb-6 text-sm">Riesgo sistémico en el mercado mayorista. Deuda del Estado por subsidios supera los $6 billones.</p>
+                    <div class="space-y-3">
+                        <div class="flex justify-between text-xs font-bold border-b pb-2">
+                            <span>Déficit Subsidios 2025</span>
+                            <span class="text-red-600">$8.9 Billones</span>
+                        </div>
+                        <div class="flex justify-between text-xs font-bold border-b pb-2">
+                            <span>Pérdidas Air-e</span>
+                            <span class="text-slate-800">28.2%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Crisis 3 -->
+                <div class="bg-slate-50 p-10 rounded-[32px] border border-slate-100 relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition">
+                        <i class="fas fa-shield-halved text-9xl"></i>
+                    </div>
+                    <div class="bg-azul-marino w-14 h-14 rounded-2xl flex items-center justify-center text-turquesa text-2xl mb-8 shadow-lg">
+                        <i class="fas fa-landmark"></i>
+                    </div>
+                    <h4 class="text-2xl font-black text-azul-marino mb-4">Confianza Institucional</h4>
+                    <p class="text-slate-600 mb-6 text-sm">Licenciamiento impredecible y conflictividad territorial paralizan inversiones críticas.</p>
+                    <div class="space-y-3">
+                        <div class="flex justify-between text-xs font-bold border-b pb-2">
+                            <span>Campos Activos</span>
+                            <span class="text-red-600">-18% (desde 2019)</span>
+                        </div>
+                        <div class="flex justify-between text-xs font-bold border-b pb-2">
+                            <span>Reservas Crudo</span>
+                            <span class="text-slate-800">7.2 años</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- El Decálogo de Conducción -->
+    <section id="decalogo" class="py-32 bg-azul-marino text-white seccion-diagonal">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-col lg:flex-row items-center gap-16 mb-16">
+                <div class="lg:w-1/2">
+                    <h2 class="text-4xl md:text-5xl font-black mb-6 leading-tight text-turquesa uppercase">Decálogo de Conducción Política y Técnica</h2>
+                    <p class="text-slate-300 text-lg mb-8">Un programa serio debe ganar dos veces: en las urnas y en la realidad. Nuestra hoja de ruta se basa en 10 principios de ejecución.</p>
+                    <div class="bg-white/10 p-6 rounded-2xl border border-white/20">
+                        <p class="font-bold flex items-center uppercase tracking-wider">
+                            <i class="fas fa-microchip text-turquesa mr-3"></i> Enfoque NEXO
+                        </p>
+                        <p class="text-sm text-slate-400 mt-2">La energía depende del agua, la minería de la energía, y el país de la infraestructura. Si un eslabón falla, todo se encarece.</p>
+                    </div>
+                </div>
+                <div class="lg:w-1/2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="bg-white/5 p-6 rounded-xl border border-white/10 hover:border-turquesa/50 transition">
+                        <span class="text-turquesa font-black text-3xl block mb-2">01</span>
+                        <h5 class="font-bold mb-1 uppercase text-sm">Verdad y Claridad</h5>
+                        <p class="text-[10px] text-slate-400">Diagnóstico sin maquillaje: cifras y responsables.</p>
+                    </div>
+                    <div class="bg-white/5 p-6 rounded-xl border border-white/10 hover:border-turquesa/50 transition">
+                        <span class="text-turquesa font-black text-3xl block mb-2">02</span>
+                        <h5 class="font-bold mb-1 uppercase text-sm">Economía Doméstica</h5>
+                        <p class="text-[10px] text-slate-400">Priorizar el bolsillo y la competitividad.</p>
+                    </div>
+                    <div class="bg-white/5 p-6 rounded-xl border border-white/10 hover:border-turquesa/50 transition">
+                        <span class="text-turquesa font-black text-3xl block mb-2">03</span>
+                        <h5 class="font-bold mb-1 uppercase text-sm">Sala de Situación</h5>
+                        <p class="text-[10px] text-slate-400">Seguimiento diario y decisiones con datos.</p>
+                    </div>
+                    <div class="bg-white/5 p-6 rounded-xl border border-white/10 hover:border-turquesa/50 transition">
+                        <span class="text-turquesa font-black text-3xl block mb-2">04</span>
+                        <h5 class="font-bold mb-1 uppercase text-sm">Mandato Ciudadano</h5>
+                        <p class="text-[10px] text-slate-400">Escucha masiva y compromisos regionales.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <p class="text-sm font-bold text-slate-500 uppercase tracking-[0.4em] mb-4 italic">Unidad para producir</p>
+                <p class="text-slate-300 max-w-2xl mx-auto italic">"Pactos con trabajadores, empresas y comunidades: más producción legal, menos informalidad y violencia."</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ruta Curricular Detallada -->
+    <section id="cursos" class="py-24 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-16">
+                <span class="text-turquesa font-bold tracking-[0.3em] uppercase text-sm">Arquitectura de Aprendizaje</span>
+                <h2 class="text-4xl md:text-5xl font-black text-azul-marino mt-4 uppercase">Cursos de Ejecución Estratégica</h2>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-12">
+                <div class="lg:col-span-4 space-y-4">
+                    <button onclick="cambiarCurso(1)" id="btn-c1" class="btn-curso w-full text-left p-6 rounded-2xl bg-white shadow-sm border-l-4 border-slate-200 hover:shadow-md transition active-curso font-bold text-azul-marino">
+                        C1. Gobernar con Datos
+                    </button>
+                    <button onclick="cambiarCurso(2)" id="btn-c2" class="btn-curso w-full text-left p-6 rounded-2xl bg-white shadow-sm border-l-4 border-slate-200 hover:shadow-md transition font-bold text-slate-500">
+                        C2. Plan Gas 2026-2028
+                    </button>
+                    <button onclick="cambiarCurso(3)" id="btn-c3" class="btn-curso w-full text-left p-6 rounded-2xl bg-white shadow-sm border-l-4 border-slate-200 hover:shadow-md transition font-bold text-slate-500">
+                        C3. Tarifa Técnica y Pagable
+                    </button>
+                    <button onclick="cambiarCurso(4)" id="btn-c4" class="btn-curso w-full text-left p-6 rounded-2xl bg-white shadow-sm border-l-4 border-slate-200 hover:shadow-md transition font-bold text-slate-500">
+                        C4. Solución de Fondo Caribe
+                    </button>
+                    <button onclick="cambiarCurso(5)" id="btn-c5" class="btn-curso w-full text-left p-6 rounded-2xl bg-white shadow-sm border-l-4 border-slate-200 hover:shadow-md transition font-bold text-slate-500">
+                        C5. Minería Legal vs Crimen
+                    </button>
+                    <button onclick="cambiarCurso(6)" id="btn-c6" class="btn-curso w-full text-left p-6 rounded-2xl bg-white shadow-sm border-l-4 border-slate-200 hover:shadow-md transition font-bold text-slate-500">
+                        C6. Traducir sin Mentir
+                    </button>
+                    <button onclick="cambiarCurso(7)" id="btn-c7" class="btn-curso w-full text-left p-6 rounded-2xl bg-white shadow-sm border-l-4 border-azul-marino hover:shadow-md transition font-bold text-azul-marino">
+                        C7. Proyecto Final (War Room)
+                    </button>
+                </div>
+
+                <div id="pantalla-curso" class="lg:col-span-8 bg-white rounded-[40px] p-10 md:p-12 shadow-xl border border-slate-100 min-h-[500px]">
+                    <!-- Contenido dinámico -->
+                    <div id="contenido-curso" class="animate-in">
+                        <div class="flex items-center space-x-4 mb-8">
+                            <span class="bg-azul-marino text-turquesa px-4 py-1 rounded-lg font-black text-xl">C1</span>
+                            <h3 class="text-3xl font-black text-azul-marino uppercase">Gobernar con Datos</h3>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-8 mb-10">
+                            <div class="border-l-4 border-turquesa pl-6">
+                                <h6 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Fundamento</h6>
+                                <p class="text-slate-700 font-medium">Convertir el diagnóstico en prioridades, gobernanza y tableros de seguimiento público.</p>
+                            </div>
+                            <div class="border-l-4 border-azul-marino pl-6">
+                                <h6 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Entregable Certificable</h6>
+                                <p class="text-slate-700 font-medium italic">Plantilla de línea base + Matriz de priorización + Tarjeta Frase-Prueba.</p>
+                            </div>
+                        </div>
+                        <h4 class="font-black text-azul-marino mb-6 flex items-center uppercase text-sm tracking-widest">
+                            <i class="fas fa-list-ul mr-3 text-turquesa"></i> Temas Clave
+                        </h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="bg-slate-50 p-4 rounded-xl text-sm flex items-center">
+                                <i class="fas fa-check-circle text-turquesa mr-3"></i> Línea base técnica (qué, cuánto, dónde)
+                            </div>
+                            <div class="bg-slate-50 p-4 rounded-xl text-sm flex items-center">
+                                <i class="fas fa-check-circle text-turquesa mr-3"></i> Matriz Impacto x Urgencia
+                            </div>
+                            <div class="bg-slate-50 p-4 rounded-xl text-sm flex items-center">
+                                <i class="fas fa-check-circle text-turquesa mr-3"></i> Arquitectura de Ejecución (PMO)
+                            </div>
+                            <div class="bg-slate-50 p-4 rounded-xl text-sm flex items-center">
+                                <i class="fas fa-check-circle text-turquesa mr-3"></i> Tablero Público de KPIs
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comunicación Estratégica -->
+    <section id="comunicacion" class="py-24 bg-white px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="bg-slate-900 rounded-[50px] p-12 md:p-20 relative overflow-hidden">
+                <div class="absolute bottom-0 right-0 w-1/2 h-1/2 bg-turquesa opacity-5 blur-3xl"></div>
+                
+                <div class="relative z-10">
+                    <h2 class="text-3xl md:text-5xl font-black text-white mb-8 uppercase">Traducir sin mentir</h2>
+                    <p class="text-slate-400 text-lg mb-16 max-w-3xl">Convertimos el tecnicismo en lenguaje ciudadano que se puede entender, recordar y exigir. La comunicación del sector fracasa cuando suena a trámite.</p>
+                    
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <!-- Tarjeta Mensaje -->
+                        <div class="bg-white/5 border border-white/10 p-8 rounded-3xl hover:bg-white/10 transition">
+                            <h5 class="text-turquesa font-bold text-xs uppercase tracking-widest mb-4">Licencias Ambientales</h5>
+                            <p class="text-white text-2xl font-black mb-4">"Trámite rápido, estándar alto: menos papel, más control en campo"</p>
+                            <p class="text-slate-400 text-sm italic">Prueba: Tablero público con tiempos por proyecto y entidad; silencio administrativo con auditoría.</p>
+                        </div>
+                        <!-- Tarjeta Mensaje -->
+                        <div class="bg-white/5 border border-white/10 p-8 rounded-3xl hover:bg-white/10 transition">
+                            <h5 class="text-turquesa font-bold text-xs uppercase tracking-widest mb-4">Regulación y Tarifas</h5>
+                            <p class="text-white text-2xl font-black mb-4">"Tarifa pagable no es tarifa populista: es tarifa técnica y sistema sostenible"</p>
+                            <p class="text-slate-400 text-sm italic">Prueba: Reducción de exposición a bolsa; indicadores de calidad y pérdidas publicados.</p>
+                        </div>
+                        <!-- Tarjeta Mensaje -->
+                        <div class="bg-white/5 border border-white/10 p-8 rounded-3xl hover:bg-white/10 transition">
+                            <h5 class="text-turquesa font-bold text-xs uppercase tracking-widest mb-4">Hidrocarburos</h5>
+                            <p class="text-white text-2xl font-black mb-4">"Explorar es asegurar el futuro; producir es financiar el presente"</p>
+                            <p class="text-slate-400 text-sm italic">Prueba: Metas anuales de pozos y reservas; cronograma público por cuenca.</p>
+                        </div>
+                        <!-- Tarjeta Mensaje -->
+                        <div class="bg-white/5 border border-white/10 p-8 rounded-3xl hover:bg-white/10 transition">
+                            <h5 class="text-turquesa font-bold text-xs uppercase tracking-widest mb-4">Regalías</h5>
+                            <p class="text-white text-2xl font-black mb-4">"Del subsuelo al colegio y al hospital: regalías que se ven"</p>
+                            <p class="text-slate-400 text-sm italic">Prueba: Mapa público de proyectos financiados y auditoría concurrente.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Agenda Territorial -->
+    <section class="py-24 bg-slate-50 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-4xl font-black text-azul-marino text-center mb-16 uppercase">Agenda de Ejecución Regional</h2>
+            
+            <div class="overflow-x-auto pb-8">
+                <table class="w-full bg-white rounded-3xl shadow-lg border-collapse min-w-[800px]">
+                    <thead>
+                        <tr class="bg-azul-marino text-white text-left">
+                            <th class="p-6 rounded-tl-3xl uppercase text-xs tracking-widest font-black">Región</th>
+                            <th class="p-6 uppercase text-xs tracking-widest font-black">Apuesta Productiva</th>
+                            <th class="p-6 uppercase text-xs tracking-widest font-black">0-18 Meses (Choque)</th>
+                            <th class="p-6 rounded-tr-3xl uppercase text-xs tracking-widest font-black">2-4 Años (Resultados)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm">
+                        <tr class="border-b">
+                            <td class="p-6 font-black text-azul-marino">Caribe</td>
+                            <td class="p-6 font-medium">Gas costa afuera + Renovables</td>
+                            <td class="p-6 text-slate-600">Subsidios por clima; permisos exprés a gas.</td>
+                            <td class="p-6 text-slate-600">Eólica marina; refuerzo redes; hubs industria.</td>
+                        </tr>
+                        <tr class="border-b bg-slate-50">
+                            <td class="p-6 font-black text-azul-marino">Llanos</td>
+                            <td class="p-6 font-medium">Servicios Petroleros + EOR</td>
+                            <td class="p-6 text-slate-600">Seguridad oleoductos; optimización campos.</td>
+                            <td class="p-6 text-slate-600">Clúster tecnológico; gas industrial regional.</td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="p-6 font-black text-azul-marino">Santander</td>
+                            <td class="p-6 font-medium">Gas, Refinación y Química</td>
+                            <td class="p-6 text-slate-600">Acelerar proyectos gasíferos.</td>
+                            <td class="p-6 text-slate-600">Petroquímica y fertilizantes; hidrógeno.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Plan de Choque: 100 Días -->
+    <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+                <div>
+                    <h2 class="text-4xl font-black text-azul-marino uppercase">Plan de Choque</h2>
+                    <p class="text-turquesa font-bold uppercase tracking-widest mt-2">Primeros 100 Días de Gobierno</p>
+                </div>
+                <div class="bg-turquesa/10 p-4 rounded-2xl border border-turquesa/20">
+                    <span class="text-azul-marino font-black text-2xl">10</span>
+                    <span class="text-slate-500 font-bold ml-2 uppercase text-xs">Compromisos Verificables</span>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="space-y-6">
+                    <div class="flex items-center space-x-6 group">
+                        <span class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center font-black group-hover:bg-turquesa group-hover:text-azul-marino transition shrink-0">01</span>
+                        <p class="font-bold text-slate-700">CREG con quórum en propiedad y agenda prioritaria.</p>
+                    </div>
+                    <div class="flex items-center space-x-6 group border-t pt-6">
+                        <span class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center font-black group-hover:bg-turquesa group-hover:text-azul-marino transition shrink-0">02</span>
+                        <p class="font-bold text-slate-700">Calendario de pago de deudas para recuperar liquidez.</p>
+                    </div>
+                    <div class="flex items-center space-x-6 group border-t pt-6">
+                        <span class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center font-black group-hover:bg-turquesa group-hover:text-azul-marino transition shrink-0">03</span>
+                        <p class="font-bold text-slate-700">Lanzamiento Plan Gas 2026-2028 (Contratos e Infraestructura).</p>
+                    </div>
+                </div>
+                <div class="bg-azul-marino rounded-[40px] p-10 text-white relative overflow-hidden">
+                    <div class="relative z-10">
+                        <i class="fas fa-satellite-dish text-turquesa text-4xl mb-6"></i>
+                        <h4 class="text-2xl font-black mb-4 uppercase">Sala de Situación (War Room)</h4>
+                        <p class="text-slate-400 mb-8">Monitoreo diario de tarifas, embalses, gas, conflictos y ejecución. El Estado vigila con rigor, pero decide a tiempo.</p>
+                        <ul class="space-y-3 text-sm italic">
+                            <li class="flex items-center"><i class="fas fa-check text-turquesa mr-2"></i> Respuesta en 60 minutos ante rumores.</li>
+                            <li class="flex items-center"><i class="fas fa-check text-turquesa mr-2"></i> Tablero semanal público de avances.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Final -->
+    <footer class="bg-azul-profundo text-white pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-4 gap-12 mb-20">
+            <div class="col-span-2">
+                <div class="flex items-center space-x-3 mb-8">
+                    <div class="bg-turquesa p-2 rounded-lg">
+                        <i class="fas fa-charging-station text-azul-marino text-xl"></i>
+                    </div>
+                    <span class="font-black text-2xl tracking-tighter">ADLE 2026-2030</span>
+                </div>
+                <p class="text-slate-400 max-w-sm">Un programa que devuelve la técnica al sector energético para garantizar que el país funcione, invierta y crezca.</p>
+            </div>
+            <div>
+                <h5 class="font-bold mb-6 text-turquesa uppercase text-xs tracking-[0.2em]">Recursos</h5>
+                <ul class="space-y-4 text-slate-400 text-sm">
+                    <li><a href="#" class="hover:text-white transition">Programa de Gobierno Completo</a></li>
+                    <li><a href="#" class="hover:text-white transition">Glosario Ciudadano</a></li>
+                    <li><a href="#" class="hover:text-white transition">Rúbricas de Certificación</a></li>
+                </ul>
+            </div>
+            <div>
+                <h5 class="font-bold mb-6 text-turquesa uppercase text-xs tracking-[0.2em]">Legal</h5>
+                <ul class="space-y-4 text-slate-400 text-sm">
+                    <li><a href="#" class="hover:text-white transition">Términos de Uso</a></li>
+                    <li><a href="#" class="hover:text-white transition">Privacidad de Datos</a></li>
+                    <li><a href="#" class="hover:text-white transition">Gobierno Corporativo</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 border-t border-white/10 pt-10 text-center">
+            <p class="text-[10px] text-slate-500 font-bold uppercase tracking-[0.3em]">Energía para crecer. Gas para producir. Minería legal para prosperar.</p>
+        </div>
+    </footer>
+
+    <script>
+        const infoCursos = {
+            1: {
+                id: 'C1',
+                titulo: 'Gobernar con Datos',
+                categoria: 'Fundamento de Ejecución',
+                descripcion: 'Convertir el diagnóstico en prioridades, gobernanza y tableros de seguimiento público.',
+                entregable: 'Plantilla de línea base + Matriz de priorización + Tarjeta Frase-Prueba.',
+                temas: ['Línea base técnica (qué, cuánto, dónde)', 'Matriz Impacto x Urgencia', 'Arquitectura de Ejecución (PMO)', 'Tablero Público de KPIs']
+            },
+            2: {
+                id: 'C2',
+                titulo: 'Plan Gas 2026-2028',
+                categoria: 'Seguridad Energética',
+                descripcion: 'Convertir la estrategia de gas en un plan ejecutable (contratos, infraestructura, medidas transitorias).',
+                entregable: 'Índice del Plan Gas + Metas + Cronograma por hitos + 8 KPIs.',
+                temas: ['Cadena de valor del gas', 'Priorización de demanda esencial', 'Infraestructura crítica y transporte', 'Importación transitoria y señales']
+            },
+            3: {
+                id: 'C3',
+                titulo: 'Tarifa Técnica y Pagable',
+                categoria: 'Regulación y Sostenibilidad',
+                descripcion: 'Herramientas para diseñar medidas tarifarias sostenibles: liquidez, señales y calidad.',
+                entregable: 'Modelo integral de tarifa pagable (Palancas + Alivio focalizado + KPIs).',
+                temas: ['Composición de tarifa (G-T-D-C-P-R)', 'Diseño de alivios focalizados', 'Indicadores de liquidez y riesgo', 'Reducción de exposición a bolsa']
+            },
+            4: {
+                id: 'C4',
+                titulo: 'Solución de Fondo Caribe',
+                categoria: 'Impacto Territorial',
+                descripcion: 'Plan integral Caribe: reducir pérdidas, recuperar caja y cerrar brechas climáticas.',
+                entregable: 'Plan Caribe 90-180-365 + Tablero Territorial + Contrato Social.',
+                temas: ['Crisis técnica y social Caribe', 'Plan antipérdidas y medición inteligente', 'Subsidios coherentes con clima', 'Transición operativa de operadores']
+            },
+            5: {
+                id: 'C5',
+                titulo: 'Minería Legal vs Crimen',
+                categoria: 'Productividad y Legalidad',
+                descripcion: 'Formalización, trazabilidad, combate a economías criminales y valor agregado.',
+                entregable: 'Estrategia territorial de minería legal + Tablero de regalías.',
+                temas: ['Diferenciación Minería vs Crimen', 'Rutas de formalización con asistencia', 'Trazabilidad del mineral', 'Encadenamientos METS']
+            },
+            6: {
+                id: 'C6',
+                titulo: 'Traducir sin Mentir',
+                categoria: 'Comunicación Estratégica',
+                descripcion: 'Formar voceros capaces de comunicar con rigor, empatía y verificabilidad.',
+                entregable: 'Kit de comunicación (Tarjetas Frase-Prueba + Q&A + Protocolo crisis).',
+                temas: ['Mensaje rector y vida diaria', 'Traducción de licencias y permisos', 'Argumentación ética con datos', 'Manejo de crisis sectoriales']
+            },
+            7: {
+                id: 'C7',
+                titulo: 'War Room Final',
+                categoria: 'Certificación Final',
+                descripcion: 'Integración final de artefactos profesionales: diagnóstico, tablero y pitch.',
+                entregable: 'Proyecto Final Consolidado + Simulación War Room en Vivo.',
+                temas: ['Compromisos verificables de 100 días', 'Mapa de dependencias (NEXO)', 'Playbooks de acción correctiva', 'Pitch ejecutivo de 90 segundos']
+            }
+        };
+
+        function cambiarCurso(id) {
+            // Actualizar botones del menú lateral
+            document.querySelectorAll('.btn-curso').forEach(btn => {
+                btn.classList.remove('active-curso', 'text-azul-marino', 'border-turquesa', 'shadow-md');
+                btn.classList.add('text-slate-500', 'border-slate-200');
+            });
+            
+            const btnActivo = document.getElementById(`btn-c${id}`);
+            if (btnActivo) {
+                btnActivo.classList.add('active-curso', 'text-azul-marino', 'border-turquesa', 'shadow-md');
+                btnActivo.classList.remove('text-slate-500', 'border-slate-200');
+            }
+
+            // Cambiar contenido con animación
+            const curso = infoCursos[id];
+            const contenedorContenido = document.getElementById('contenido-curso');
+            
+            // Animación de salida
+            contenedorContenido.classList.remove('animate-in');
+            contenedorContenido.style.opacity = '0';
+            
+            setTimeout(() => {
+                contenedorContenido.innerHTML = `
+                    <div class="flex items-center space-x-4 mb-8">
+                        <span class="bg-azul-marino text-turquesa px-4 py-1 rounded-lg font-black text-xl">${curso.id}</span>
+                        <h3 class="text-3xl font-black text-azul-marino uppercase tracking-tight">${curso.titulo}</h3>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-8 mb-10">
+                        <div class="border-l-4 border-turquesa pl-6">
+                            <h6 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">${curso.categoria}</h6>
+                            <p class="text-slate-700 font-medium">${curso.descripcion}</p>
+                        </div>
+                        <div class="border-l-4 border-azul-marino pl-6">
+                            <h6 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Entregable Certificable</h6>
+                            <p class="text-slate-700 font-medium italic">${curso.entregable}</p>
+                        </div>
+                    </div>
+                    <h4 class="font-black text-azul-marino mb-6 flex items-center uppercase text-sm tracking-widest">
+                        <i class="fas fa-list-ul mr-3 text-turquesa"></i> Temas Clave
+                    </h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        ${curso.temas.map(t => `
+                            <div class="bg-slate-50 p-4 rounded-xl text-sm flex items-center">
+                                <i class="fas fa-check-circle text-turquesa mr-3"></i> ${t}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                contenedorContenido.classList.add('animate-in');
+                contenedorContenido.style.opacity = '1';
+            }, 150);
+        }
+
+        // Cargar curso 1 por defecto al iniciar
+        window.onload = () => {
+            cambiarCurso(1);
+        };
+    </script>
+</body>
+</html>
