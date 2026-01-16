@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programa Minero-Energético 2026-2030 | Firme por la Patria</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --navy: #002147;
+            --navy-deep: #00152e;
+            --turquoise: #00CED1;
+            --turquoise-glow: rgba(0, 206, 209, 0.3);
+            --white: #FFFFFF;
+            --slate-50: #F8FAFC;
+            --slate-100: #F1F5F9;
+            --slate-300: #CBD5E1;
+            --slate-600: #475569;
+            --slate-800: #1E293B;
+            --warning: #C53030;
+            --gradient-master: linear-gradient(135deg, #002147 0%, #004280 100%);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { 
+            background-color: var(--navy-deep); 
+            font-family: 'Inter', sans-serif; 
+            color: var(--slate-600);
+            padding: 40px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .slide {
+            width: 1280px;
+            height: 720px;
+            background: var(--white);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            border-radius: 4px;
+        }
+
+        /* Branding Elements */
+        .accent-bar {
+            position: absolute; top: 0; left: 0; width: 100%; height: 8px;
+            background: linear-gradient(90deg, var(--navy) 0%, var(--turquoise) 100%); z-index: 100;
+        }
+
+        .slide-meta {
+            position: absolute; bottom: 30px; left: 60px;
+            font-size: 11px; font-weight: 700; color: var(--slate-300);
+            letter-spacing: 2px; text-transform: uppercase;
+        }
+
+        .slide-number {
+            position: absolute; bottom: 30px; right: 60px;
+            font-size: 14px; font-weight: 800; color: var(--turquoise);
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; text-transform: uppercase; letter-spacing: -0.5px; }
+        
+        .header-box {
+            padding: 50px 80px 10px;
+            z-index: 10;
+        }
+
+        .header-box h2 {
+            font-size: 36px; font-weight: 900; color: var(--navy);
+            display: flex; align-items: center; gap: 20px;
+        }
+
+        .header-box h2::after {
+            content: ''; flex-grow: 1; height: 1px; background: var(--slate-100);
+        }
+
+        .content-box {
+            flex-grow: 1;
+            padding: 0 80px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            z-index: 5;
+        }
+
+        /* Hero / Title Layout */
+        .hero {
+            background: var(--navy);
+            height: 100%; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; color: var(--white);
+            text-align: center; padding: 100px;
+            position: relative;
+            background-image: linear-gradient(rgba(0,33,71,0.9), rgba(0,33,71,0.9)), url('http://googleusercontent.com/image_collection/image_retrieval/1249584804916762213');
+            background-size: cover; background-position: center;
+        }
+        .hero h1 { font-size: 96px; font-weight: 900; line-height: 0.85; margin-bottom: 20px; letter-spacing: -4px; }
+        .hero .subtitle { font-size: 28px; font-weight: 300; color: var(--turquoise); letter-spacing: 12px; margin-bottom: 40px; }
+        .hero .tag { background: var(--turquoise); color: var(--navy); padding: 8px 30px; font-weight: 800; border-radius: 50px; font-size: 16px; margin-bottom: 20px; }
+
+        /* Grid & Views */
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .split-60-40 { display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; align-items: center; }
+
+        /* Component Cards */
+        .card {
+            background: var(--slate-50);
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid var(--slate-100);
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+        .card.navy { background: var(--navy); color: white; border: none; }
+        .card.navy h3 { color: var(--turquoise); }
+        .card.warning { border-left: 6px solid var(--warning); }
+
+        .metric-value {
+            font-family: 'Montserrat'; font-weight: 900; font-size: 60px; 
+            color: var(--turquoise); line-height: 1; margin: 10px 0;
+            text-shadow: 0 4px 10px var(--turquoise-glow);
+        }
+        .metric-value.danger { color: var(--warning); text-shadow: none; }
+
+        /* Specialized Graphics */
+        .chart-row { margin-bottom: 15px; }
+        .chart-label { display: flex; justify-content: space-between; margin-bottom: 5px; font-weight: 700; font-size: 12px; text-transform: uppercase; color: var(--navy); }
+        .chart-track { width: 100%; height: 32px; background: #e2e8f0; border-radius: 4px; overflow: hidden; }
+        .chart-fill { height: 100%; background: var(--navy); display: flex; align-items: center; justify-content: flex-end; padding-right: 15px; color: white; font-weight: 800; font-size: 14px; }
+        .chart-fill.alt { background: var(--turquoise); color: var(--navy); }
+        .chart-fill.danger { background: var(--warning); }
+
+        /* High Impact Images */
+        .media-frame { border-radius: 12px; overflow: hidden; height: 100%; box-shadow: 0 25px 50px rgba(0,0,0,0.2); position: relative; border: 1px solid var(--slate-100); background-color: var(--slate-100); }
+        .media-frame img { width: 100%; height: 100%; object-fit: cover; }
+        .media-caption { position: absolute; bottom: 0; left: 0; width: 100%; padding: 25px; background: linear-gradient(transparent, rgba(0,21,46,0.95)); color: white; }
+
+        /* Icon Lists */
+        .icon-list { list-style: none; }
+        .icon-list li { 
+            margin-bottom: 15px; padding-left: 40px; position: relative; 
+            font-size: 17px; line-height: 1.4; color: var(--slate-800); font-weight: 400;
+        }
+        .icon-list li i {
+            position: absolute; left: 0; top: 2px; color: var(--turquoise); font-size: 22px;
+        }
+        .icon-list li i.fa-triangle-exclamation { color: var(--warning); }
+
+        /* Precision Roadmap */
+        .roadmap { display: flex; justify-content: space-between; margin-top: 60px; position: relative; }
+        .roadmap-line { position: absolute; top: 25px; left: 0; width: 100%; height: 2px; background: var(--slate-100); z-index: 1; }
+        .roadmap-step { width: 23%; text-align: center; position: relative; z-index: 2; }
+        .step-id {
+            width: 50px; height: 50px; background: var(--navy); color: var(--white);
+            border: 4px solid var(--white); border-radius: 50%; display: flex;
+            align-items: center; justify-content: center; margin: 0 auto 20px;
+            font-weight: 900; font-size: 18px; box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Highlight Quote */
+        .highlight-quote {
+            border-left: 6px solid var(--turquoise);
+            padding: 30px 40px; background: var(--slate-50);
+            font-style: italic; font-size: 24px; color: var(--navy);
+            margin: 30px 0; font-weight: 500; line-height: 1.4;
+        }
+
+        .tag-pill {
+            display: inline-block; padding: 4px 12px; background: var(--navy); 
+            color: var(--white); border-radius: 4px; font-size: 10px; font-weight: 800; margin-bottom: 8px; letter-spacing: 1px;
+        }
+        .tag-pill.warning { background: var(--warning); }
+
+    </style>
+</head>
+<body>
+
+<!-- SLIDE 1: PORTADA DE ALTO IMPACTO -->
+<div class="slide">
+    <div class="accent-bar"></div>
+    <div class="hero">
+        <div class="tag">ESTRATEGIA DE ESTADO 2026 - 2030</div>
+        <h1>FIRME POR<br>LA PATRIA</h1>
+        <div class="subtitle">AUTOSUFICIENCIA Y SOBERANÍA</div>
+        <div style="width: 100px; height: 3px; background: var(--turquoise); margin: 30px auto;"></div>
+        <p style="font-weight: 700; font-size: 22px; letter-spacing: 5px; text-transform: uppercase; opacity: 0.9;">ABELARDO DE LA ESPRIELLA</p>
+    </div>
+    <div class="slide-meta">BANCO DE MENSAJES Y POSICIONES ESTRATÉGICAS</div>
+    <div class="slide-number">01</div>
+</div>
+
+<!-- SLIDE 2: DIAGNÓSTICO: LA EMERGENCIA ENERGÉTICA -->
+<div class="slide">
+    <div class="accent-bar"></div>
+    <div class="header-box">
+        <h2>EL ESTADO DE LA NACIÓN</h2>
+    </div>
+    <div class="content-box">
+        <div class="split-60-40">
+            <div>
+                <p style="font-size: 22px; color: var(--navy); font-weight: 600; margin-bottom: 30px; line-height: 1.3;">
+                    Colombia enfrenta un <strong>estrangulamiento energético</strong> crítico. La parálisis administrativa es hoy la mayor amenaza a la seguridad nacional.
+                </p>
+                <div class="grid-2">
+                    <div class="card warning">
+                        <div class="tag-pill warning">GAS NATURAL</div>
+                        <div class="metric-value danger">5.9</div>
+                        <p><strong>Años de Reservas Probadas.</strong> El déficit real de gas para el mercado industrial proyectado en Q1-2026 es del 34%.</p>
+                    </div>
+                    <div class="card warning">
+                        <div class="tag-pill warning">ELECTRICIDAD</div>
+                        <div class="metric-value danger">$6.0B</div>
+                        <p><strong>Déficit de Subsidios.</strong> Riesgo inminente de cesación de pagos en la cadena de comercialización de energía.</p>
+                    </div>
+                </div>
+                <div class="card navy" style="margin-top: 20px;">
+                    <p style="font-size: 18px;"><strong>Riesgo Sistémico:</strong> La importación de gas elevará el costo de la energía industrial en un 45%, destruyendo la competitividad de la manufactura nacional.</p>
+                </div>
+            </div>
+            <div class="media-frame">
+                <!-- Imagen de Centro de Control Energético de Alta Tecnología -->
+                <img src="http://googleusercontent.com/image_collection/image_retrieval/12866843678303853700" alt="Centro de Control Energético de Alta Tecnología" onerror="this.src='https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=600'">
+                <div class="media-caption">
+                    <p><strong>Crisis de Abastecimiento:</strong> El tiempo de respuesta es nulo.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slide-number">02</div>
+</div>
+
+<!-- SLIDE 3: PRINCIPIOS DE AUTORIDAD Y RIGOR -->
+<div class="slide">
+    <div class="accent-bar"></div>
+    <div class="header-box">
+        <h2>PRINCIPIOS ESTRATÉGICOS</h2>
+    </div>
+    <div class="content-box">
+        <div class="grid-3">
+            <div class="card">
+                <i class="fa-solid fa-shield-halved" style="font-size: 40px; color: var(--navy); margin-bottom: 20px;"></i>
+                <h3>Seguridad Nacional</h3>
+                <p>La energía como activo intocable. El suministro no se negocia por motivos ideológicos o populistas.</p>
+            </div>
+            <div class="card">
+                <i class="fa-solid fa-gavel" style="font-size: 40px; color: var(--navy); margin-bottom: 20px;"></i>
+                <h3>Autoridad Jurídica</h3>
+                <p>Cumplimiento estricto de cronogramas. Reformulación de la consulta previa para que no sea un veto eterno.</p>
+            </div>
+            <div class="card">
+                <i class="fa-solid fa-eye" style="font-size: 40px; color: var(--navy); margin-bottom: 20px;"></i>
+                <h3>Transparencia 2.0</h3>
+                <p>Digitalización total de la trazabilidad de regalías y asignación de bloques minero-energéticos.</p>
+            </div>
+        </div>
+        <div class="highlight-quote">
+            "No permitiremos que Colombia regrese al oscurantismo. Nuestra riqueza del subsuelo es la garantía del bienestar en la superficie."
+        </div>
+    </div>
+    <div class="slide-number">03</div>
+</div>
+
+<!-- SLIDE 4: ECOPETROL: RESCATE Y BLINDAJE TÉCNICO -->
+<div class="slide">
+    <div class="accent-bar"></div>
+    <div class="header-box">
+        <h2>ECOPETROL: RESCATE DE VALOR</h2>
+    </div>
+    <div class="content-box">
+        <div class="split-60-40">
+            <div>
+                <p style="font-size: 19px; margin-bottom: 25px;"><strong>Frenar la Destrucción de Valor.</strong> La empresa más importante de Colombia ha sido tratada como botín político y experimento ideológico.</p>
+                <div class="chart-row">
+                    <div class="chart-label"><span>Desplome Valor de Mercado (ADR/BVC)</span><span>CRÍTICO</span></div>
+                    <div class="chart-track"><div class="chart-fill danger" style="width: 85%;">PÉRDIDA DE CONFIANZA</div></div>
+                </div>
+                <div class="chart-row">
+                    <div class="chart-label"><span>Vida Media Reservas Crudo</span><span>7.2 AÑOS</span></div>
+                    <div class="chart-track"><div class="chart-fill danger" style="width: 45%;">MÍNIMOS HISTÓRICOS</div></div>
+                </div>
+                <ul class="icon-list" style="margin-top: 25px;">
+                    <li><i class="fa-solid fa-triangle-exclamation"></i> <strong>Despolitización Inmediata:</strong> Junta Directiva técnica, sin activistas.</li>
+                    <li><i class="fa-solid fa-triangle-exclamation"></i> <strong>Foco en el Core:</strong> Hidrocarburos como motor, no como enemigo.</li>
+                    <li><i class="fa-solid fa-triangle-exclamation"></i> <strong>Auditoría Forense:</strong> Revisión de contratos y gastos ideológicos recientes.</li>
+                </ul>
+            </div>
+            <div class="media-frame">
+                <!-- Imagen de Plataforma Petrolera en Alta Mar -->
+                <img src="http://googleusercontent.com/image_collection/image_retrieval/18320564943132718556" alt="Plataforma Petrolera en Alta Mar" onerror="this.src='https://images.unsplash.com/photo-1544256718-3bcf237f3974?auto=format&fit=crop&q=80&w=600'">
+                <div class="media-caption">
+                    <p><strong>Recuperar la Confianza:</strong> Ecopetrol vuelve a ser técnica.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slide-number">04</div>
+</div>
+
+<!-- SLIDE 5: ESTRATEGIA CARIBE - ENERGÍA DIGNA -->
+<div class="slide">
+    <div class="accent-bar"></div>
+    <div class="header-box">
+        <h2>CARIBE: TARIFA JUSTA Y SERVICIO DIGNO</h2>
+    </div>
+    <div class="content-area">
+        <div class="grid-2" style="padding: 0 80px 40px;">
+            <div class="media-frame">
+                <!-- Imagen de Infraestructura Eléctrica Moderna -->
+                <img src="http://googleusercontent.com/image_collection/image_retrieval/12152348698631405982" alt="Red Eléctrica Urbana Moderna" onerror="this.src='https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&q=80&w=600'">
+            </div>
+            <div style="display: flex; flex-direction: column; justify-content: center;">
+                <p style="font-size: 19px; margin-bottom: 30px;">El Caribe ha pagado el rezago de décadas. Nuestra solución es <strong>financiera, técnica y de autoridad</strong>.</p>
+                <div class="card" style="margin-bottom: 15px; border-left: 5px solid var(--turquoise);">
+                    <p><strong>1. Bono Energético Nacional:</strong> Titularización de deudas de subsidios ($6B) para bajar facturas de inmediato.</p>
+                </div>
+                <div class="card" style="margin-bottom: 15px; border-left: 5px solid var(--turquoise);">
+                    <p><strong>2. Inversión Técnica Masiva:</strong> Plan de $1.2B para normalización de redes y telemedición contra el hurto industrial.</p>
+                </div>
+                <div class="card" style="border-left: 5px solid var(--turquoise);">
+                    <p><strong>3. Gestión Operativa:</strong> Operadores privados con contratos de desempeño técnico y sanción por ineficiencia.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slide-number">05</div>
+</div>
+
+<!-- SLIDE 6: CIENCIA VS IDEOLOGÍA: FRACKING -->
+<div class="slide">
+    <div class="accent-bar"></div>
+    <div class="header-box">
+        <h2>CIENCIA SOBRE DOGMAS: YNC</h2>
+    </div>
+    <div class="content-box">
+        <div class="grid-3">
+            <div style="grid-column: span 2;">
+                <p style="font-size: 21px; margin-bottom: 30px;">Activaremos los <strong>Pilotos Integrales (CEPI)</strong> con monitoreo científico independiente. No enterraremos la riqueza de nuestros hijos.</p>
+                <div class="grid-2">
+                    <div class="card navy">
+                        <div class="metric-value" style="font-size: 40px;">US$ 4B</div>
+                        <p style="font-size: 14px; color: #CBD5E1;">Inversión anual incremental proyectada para el PIB nacional.</p>
+                    </div>
+                    <div class="card navy">
+                        <div class="metric-value" style="font-size: 40px;">20+</div>
+                        <p style="font-size: 14px; color: #CBD5E1;">Años de gas y crudo garantizados para la industria colombiana.</p>
+                    </div>
+                </div>
+                <ul class="icon-list" style="margin-top: 25px; columns: 2;">
+                    <li><i class="fa-solid fa-vial"></i> Monitoreo de acuíferos 24/7.</li>
+                    <li><i class="fa-solid fa-users"></i> Veeduría comunitaria activa.</li>
+                    <li><i class="fa-solid fa-satellite"></i> Reporte técnico público diario.</li>
+                    <li><i class="fa-solid fa-dollar-sign"></i> Regalías directas al municipio.</li>
+                </ul>
+            </div>
+            <div class="media-frame">
+                <!-- Imagen de Laboratorio de Investigación Energética -->
+                <img src="http://googleusercontent.com/image_collection/image_retrieval/8025110901901696084" alt="Laboratorio de Investigación Energética" onerror="this.src='https://images.unsplash.com/photo-1532187875605-2fe358511467?auto=format&fit=crop&q=80&w=600'">
+            </div>
+        </div>
+    </div>
+    <div class="slide-number">06</div>
+</div>
+
+<!-- SLIDE 7: REGALÍAS - IMPACTO SOCIAL REAL -->
+<div class="slide">
+    <div class="accent-bar"></div>
+    <div class="header-box">
+        <h2>DEL SUBSUELO AL BIENESTAR</h2>
+    </div>
+    <div class="content-box">
+        <p style="font-size: 20px; text-align: center; margin-bottom: 40px;">Transformaremos la renta minera en <strong>infraestructura visible</strong> y educación pertinente.</p>
+        <div class="grid-3">
+            <div class="card">
+                <div class="tag-pill">INFRAESTRUCTURA</div>
+                <div class="metric-value" style="font-size: 32px;">40%</div>
+                <p>Agua potable y vías terciarias prioritarias para el desarrollo rural.</p>
+            </div>
+            <div class="card">
+                <div class="tag-pill">EDUCACIÓN</div>
+                <div class="metric-value" style="font-size: 32px;">30%</div>
+                <p>Centros de formación técnica minero-petrolera en las regiones productoras.</p>
+            </div>
+            <div class="card">
+                <div class="tag-pill">VIGILANCIA</div>
+                <div class="metric-value" style="font-size: 32px;">100%</div>
+                <p>App "Regalía Firme" para seguimiento de avance físico y financiero en tiempo real.</p>
+            </div>
+        </div>
+        <div class="card navy" style="margin-top: 30px; display: flex; align-items: center; gap: 30px; border-radius: 50px; padding: 15px 40px;">
+            <i class="fa-solid fa-qrcode" style="font-size: 40px; color: var(--turquoise);"></i>
+            <p style="font-size: 18px; margin: 0;"><strong>Cero Corrupción:</strong> Cada proyecto de regalías tendrá un QR en la obra con el presupuesto y nombre del contratista.</p>
+        </div>
+    </div>
+    <div class="slide-number">07</div>
+</div>
+
+<!-- SLIDE 8: MINERÍA CON AUTORIDAD -->
+<div class="slide">
+    <div class="accent-bar"></div>
+    <div class="header-box">
+        <h2>MINERÍA: LEGALIDAD O AUTORIDAD</h2>
+    </div>
+    <div class="content-box">
+        <div class="split-60-40">
+            <div>
+                <ul class="icon-list" style="margin-bottom: 30px;">
+                    <li><i class="fa-solid fa-diamond"></i> <strong>Minerales Críticos:</strong> Plan nacional de fomento al Cobre y Litio para la transición.</li>
+                    <li><i class="fa-solid fa-id-card"></i> <strong>Formalización:</strong> Ventanilla única y crédito de fomento para el pequeño minero artesanal.</li>
+                    <li><i class="fa-solid fa-shield-halved" style="color: #EF4444;"></i> <strong>Seguridad:</strong> Escuadrón Especial contra la minería criminal terrorista.</li>
+                </ul>
+                <div class="card" style="border-left: 8px solid #EF4444;">
+                    <p style="font-weight: 700; color: #991B1B;">EL CRIMEN SE COMBATE SIN CONTEMPLACIÓN:</p>
+                    <p>Desmantelaremos las redes de extorsión ilegal que destruyen nuestros ríos y financian la violencia en los territorios.</p>
+                </div>
+            </div>
+            <div class="media-frame">
+                <!-- Imagen de Minería Moderna Responsable -->
+                <img src="http://googleusercontent.com/image_collection/image_retrieval/16240749218958400392" alt="Minería Moderna Responsable" onerror="this.src='https://images.unsplash.com/photo-1551033406-611cf9a28f67?auto=format&fit=crop&q=80&w=600'">
+            </div>
+        </div>
+    </div>
+    <div class="slide-number">08</div>
+</div>
+
+<!-- SLIDE 9: HOJA DE RUTA - LOS PRIMEROS 100 DÍAS -->
+<div class="slide">
+    <div class="accent-bar"></div>
+    <div class="header-box">
+        <h2>PLAN DE ACCIÓN: DÍA 1 AL 100</h2>
+    </div>
+    <div class="content-box">
+        <div class="roadmap">
+            <div class="roadmap-line"></div>
+            <div class="roadmap-step">
+                <div class="step-id">01</div>
+                <h3>Semanas 1-2</h3>
+                <p>Nombramiento técnico en CREG y ANH. Sala de Situación Diaria.</p>
+            </div>
+            <div class="roadmap-step">
+                <div class="step-id">02</div>
+                <h3>Semana 6</h3>
+                <p>Radicación Ley de Consulta Previa y Reforma Licencias Express.</p>
+            </div>
+            <div class="roadmap-step">
+                <div class="step-id">03</div>
+                <h3>Semana 10</h3>
+                <p>Lanzamiento Ronda de Hidrocarburos "Confianza 2026".</p>
+            </div>
+            <div class="roadmap-step">
+                <div class="step-id">04</div>
+                <h3>Día 100</h3>
+                <p>Titularización de deuda de subsidios y ajuste tarifario social.</p>
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 60px; font-weight: 800; font-size: 22px; color: var(--navy);">"Técnica en el regulador, autoridad en el Gobierno, energía en los hogares."</p>
+    </div>
+    <div class="slide-number">09</div>
+</div>
+
+<!-- SLIDE 10: CIERRE ESTRATÉGICO -->
+<div class="slide">
+    <div class="accent-bar"></div>
+    <div class="hero" style="background-image: none;">
+        <h2 style="font-size: 64px; color: var(--turquoise); margin-bottom: 25px;">FIRME POR LA PATRIA</h2>
+        <div style="width: 120px; height: 4px; background: var(--white); margin: 25px auto;"></div>
+        <p style="font-size: 26px; max-width: 850px; font-weight: 400; line-height: 1.6; opacity: 0.9;">
+            Recuperaremos la libertad económica de Colombia. Sin energía no hay futuro; con firmeza, lo tenemos todo.
+        </p>
+        <div style="margin-top: 80px; font-weight: 700; letter-spacing: 2px; opacity: 0.8;">
+            WWW.FIRME-POR-LA-PATRIA.CO | @DELE-ESPRIELLA
+        </div>
+    </div>
+    <div class="slide-footer">10 / 10</div>
+</div>
+
+</body>
+</html>
