@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>¿Dónde está la plata? · Sistema a la Vista</title><meta name="robots" content="noindex"><link rel="icon" href="data:,">
+<style>
+:root{--n:#12285E;--a:#1B3C8C;--y:#F5C44E;--r:#D6383E;--g:#2F8F5B;--l:#DDE3EE;--m:#66718A}
+*{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#1A2233;background:#EEF1F7}
+.av{background:var(--y);color:#3A2B00;font-weight:700;text-align:center;padding:7px 12px;font-size:13px}
+header{background:linear-gradient(120deg,#0B1A3F,var(--a));color:#fff;padding:28px 20px}header h1{margin:0 0 6px;font-size:clamp(26px,5vw,40px)}header p{margin:0;color:#C9D3EA;max-width:60ch}
+main{max-width:1080px;margin:0 auto;padding:18px 14px 40px}
+.k{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:16px}
+.c{background:#fff;border:1px solid var(--l);border-radius:14px;padding:16px}.c small{color:var(--m);font-weight:600;display:block}.k .c b{font-size:24px;color:var(--n)}label{display:grid;gap:4px;font-weight:600}
+h2{color:var(--n);font-size:19px;margin:22px 0 8px}.ok{color:var(--g)}.mal{color:var(--r)}
+.p{margin-bottom:12px}.p h3{margin:0 0 2px;font-size:16px;color:var(--n)}.id{font:13px ui-monospace,Menlo,monospace;color:var(--m);overflow-wrap:anywhere}
+.t{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:14px;min-width:420px}th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--l)}th{color:var(--m);font-size:12px;text-transform:uppercase}
+.e{display:inline-block;padding:2px 8px;border-radius:6px;background:#E6ECF8;color:var(--a);font-size:12.5px;font-weight:600}.e.pagado{background:#E5F3EB;color:#1F6B42}.e.devuelto,.e.sin_respuesta{background:#FBEDEE;color:#A3242A}
+a{color:var(--a)}form{display:grid;gap:8px;max-width:560px}select,textarea,input,button{font:inherit;padding:10px;border:1px solid var(--l);border-radius:9px}button{background:var(--a);color:#fff;border:0;font-weight:700;cursor:pointer}
+#msg{font-weight:600}
+</style></head><body>
+<div class="av" role="note">Versión de desarrollo · los registros marcados [DEMO] son ficticios · no es un sitio oficial</div>
+<header><h1>¿Dónde está la plata?</h1><p>Cada peso de la reconstrucción, de la fuente al pago: quién lo aprobó, quién lo contrató y qué evidencia lo respalda.</p></header>
+<main>
+<div class="k" id="k"></div>
+<h2>Proyectos</h2><div id="proy"></div>
+<h2>Reglas que se dispararon</h2><div class="c t"><table><thead><tr><th>Regla</th><th>Referencia</th><th>Qué pasó</th><th>Responde</th></tr></thead><tbody id="reg"></tbody></table></div>
+<h2>Alertas y respuestas</h2><div class="c t"><table><thead><tr><th>#</th><th>Tipo</th><th>Municipio</th><th>Vence</th><th>Estado</th></tr></thead><tbody id="al"></tbody></table></div>
+<h2>Radicar una alerta</h2>
+<form id="f" class="c"><label>Tipo <select name="tipo"><option value="riesgo">Riesgo</option><option value="anomalia">Anomalía de datos</option><option value="irregular">Posible hecho irregular</option></select></label>
+<label>Municipio <input name="municipio" maxlength="80"></label><label>¿Qué observó? <textarea name="texto" rows="3" required minlength="10" maxlength="4000"></textarea></label>
+<button>Radicar</button><div id="msg" role="status"></div></form>
+</main>
+<script>/* Puente de la demostración: las interfaces son las mismas del sistema; aquí sus llamadas a la API
+   se entregan al sistema que corre en esta misma pestaña, en vez de viajar a un servidor. */
+(function () {
+  const arriba = window.parent, real = window.fetch.bind(window), BASE = 'http://sav.local';
+  window.fetch = (entrada, init) => {
+    const u = new URL(typeof entrada === 'string' ? entrada : entrada.url, BASE);
+    return u.origin === BASE ? arriba.__sav(u.pathname + u.search, init || {}) : real(entrada, init);
+  };
+  document.addEventListener('click', async e => {
+    const a = e.target.closest && e.target.closest('a[href]'); if (!a) return;
+    const h = a.getAttribute('href'); if (!h || !h.startsWith('/')) return;
+    e.preventDefault();
+    if (['/', '/consola', '/obra', '/docs'].includes(h)) return arriba.__ir(h);
+    const r = await arriba.__sav(h, {}); let t = await r.text(); try { t = JSON.stringify(JSON.parse(t), null, 2) } catch (x) { }
+    arriba.__mostrar(h, t);
+  }, true);
+})();
+</script><script>
+const $=s=>document.querySelector(s), esc=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pesos=v=>v>=1e12?'$'+(v/1e12).toLocaleString('es-CO',{maximumFractionDigits:2})+' billones':'$'+Math.round(v/1e6).toLocaleString('es-CO')+' millones';
+const j=async u=>{const r=await fetch(u);if(!r.ok)throw new Error(u+' '+r.status);return r.json()};
+async function pintar(){
+  try{
+    const [res,ps,rg,al]=await Promise.all(['resumen','proyectos','reglas','alertas'].map(x=>j('/publico/'+x)));
+    $('#k').innerHTML=[['Proyectos',res.proyectos],['Contratado',pesos(res.contratado)],['Pagado',pesos(res.pagado)],
+      ['Pagos con evidencia',res.pagos_con_evidencia==null?'Sin pagos':Math.round(res.pagos_con_evidencia*100)+' %'],['Alertas abiertas',res.alertas_abiertas],
+      ['Bitácora',`<span class="${res.bitacora.integra?'ok':'mal'}">${res.bitacora.integra?'Íntegra':'ROTA en '+res.bitacora.ruptura_en}</span> · ${res.bitacora.eventos} eventos`]]
+      .map(([a,b])=>`<div class="c"><small>${a}</small><b>${b}</b></div>`).join('');
+    $('#proy').innerHTML=ps.length?ps.map(p=>`<div class="c p"><h3>${esc(p.nombre)}</h3><div class="id">${esc(p.id_sismo)} · ${esc(p.municipio)} · ${esc(p.sector)} · ${pesos(p.valor)}</div>
+      ${p.contratos.map(c=>`<p style="margin:10px 0 4px"><b>${esc(c.contratista)}</b> · ${pesos(c.valor)} · banda ${esc(c.banda)} · SECOP II ${esc(c.id_secop||'sin publicar')}</p>
+      <div class="t"><table><thead><tr><th>Hito</th><th>Valor</th><th>Estado</th><th>Fotos selladas</th></tr></thead><tbody>${c.hitos.map(h=>`<tr><td>${h.numero}</td><td>${pesos(h.valor)}</td><td><span class="e ${esc(h.estado)}">${esc(h.estado)}</span></td><td>${h.evidencias}</td></tr>`).join('')}</tbody></table></div>`).join('')}
+      <p style="margin:10px 0 0"><a href="/publico/proyectos/${encodeURIComponent(p.id_sismo)}/bitacora">Ver la cadena de huellas</a> · <a href="/publico/oc4ids/${encodeURIComponent(p.id_sismo)}">Descargar OC4IDS</a></p></div>`).join(''):'<div class="c">Aún no hay proyectos registrados.</div>';
+    $('#reg').innerHTML=rg.map(a=>`<tr><td>${a.regla}. ${esc(a.nombre)}</td><td class="id">${esc(a.referencia)}</td><td>${esc(a.accion)}</td><td>${esc(a.responsable)}</td></tr>`).join('')||'<tr><td colspan="4">Ninguna.</td></tr>';
+    $('#al').innerHTML=al.map(a=>`<tr><td>${a.id}</td><td>${esc(a.tipo)}</td><td>${esc(a.municipio)}</td><td>${esc(a.vence||'Según competencia')}</td><td><span class="e ${esc(a.estado)}">${esc(a.estado.replace('_',' '))}</span></td></tr>`).join('')||'<tr><td colspan="5">Ninguna.</td></tr>';
+  }catch(e){$('#k').innerHTML='<div class="c mal">No fue posible cargar los datos. Intente de nuevo en unos minutos.</div>'}
+}
+$('#f').addEventListener('submit',async e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target));
+  const r=await fetch('/publico/alertas',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});
+  if(r.ok){const x=await r.json();$('#msg').textContent='Radicada con el número '+x.id+(x.vence?'. Responderemos a más tardar el '+x.vence+'.':'. Se traslada a la autoridad competente.');e.target.reset();pintar()}
+  else $('#msg').textContent='No se pudo radicar. Revise el texto (mínimo diez caracteres).'});
+pintar();
+</script></body></html>

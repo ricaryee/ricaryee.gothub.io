@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Consola · Sistema a la Vista</title><meta name="robots" content="noindex"><link rel="icon" href="data:,">
+<style>
+:root{--n9:#0B1A3F;--n:#12285E;--a:#1B3C8C;--y:#F5C44E;--r:#D6383E;--g:#2F8F5B;--am:#B98900;--l:#DDE3EE;--m:#66718A;--bg:#EEF1F7}
+*{box-sizing:border-box}html,body{margin:0}body{font:14.5px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#1A2233;background:var(--bg)}
+button,input,select,textarea{font:inherit}
+.av{background:var(--y);color:#3A2B00;font-weight:700;text-align:center;padding:0 10px;height:31px;line-height:31px;font-size:12.5px;position:sticky;top:0;z-index:30;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.app{display:grid;grid-template-columns:230px minmax(0,1fr);min-height:calc(100vh - 31px)}
+nav{background:linear-gradient(180deg,var(--n9),#081433);color:#C9D3EA;padding:14px 10px;position:sticky;top:31px;height:calc(100vh - 31px);overflow:auto}
+nav h1{font-size:16px;color:#fff;margin:4px 8px 2px}nav small{display:block;margin:0 8px 12px;color:#93A3C9}
+nav button{display:flex;justify-content:space-between;width:100%;text-align:left;background:none;border:0;color:inherit;padding:10px 12px;border-radius:9px;cursor:pointer;font-weight:500}
+nav button:hover{background:rgba(255,255,255,.07);color:#fff}nav button.on{background:rgba(63,108,196,.35);color:#fff;box-shadow:inset 3px 0 var(--y)}
+nav .n{background:var(--r);color:#fff;border-radius:10px;padding:0 7px;font-size:12px;font-weight:700}
+.quien{margin:14px 8px 0;padding-top:12px;border-top:1px solid rgba(255,255,255,.12);font-size:12.5px}.quien b{color:#fff;display:block}
+main{padding:18px 20px 50px;min-width:0}
+header.t{display:flex;align-items:center;gap:12px;margin-bottom:14px}header.t h2{margin:0;font-size:22px;color:var(--n);flex:1}
+#menu{display:none;width:42px;height:42px;border:1px solid var(--l);background:#fff;border-radius:10px;font-size:20px;cursor:pointer}
+.c{background:#fff;border:1px solid var(--l);border-radius:14px;padding:16px;margin-bottom:14px;min-width:0}
+.c h3{margin:0 0 8px;font-size:16px;color:var(--n)}.sub{color:var(--m);font-size:13px;margin:-4px 0 10px}
+.k{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin-bottom:14px}
+.ki{background:#fff;border:1px solid var(--l);border-radius:14px;padding:14px;border-top:4px solid var(--l)}
+.ki.verde{border-top-color:var(--g)}.ki.amarillo{border-top-color:var(--y)}.ki.rojo{border-top-color:var(--r)}
+.ki small{color:var(--m);font-weight:600;display:block;min-height:38px}.ki b{font-size:26px;color:var(--n)}.ki span{color:var(--m);font-size:12.5px}
+.ts{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13.5px}th,td{text-align:left;padding:8px;border-bottom:1px solid var(--l);vertical-align:top}
+th{color:var(--m);font-size:11.5px;text-transform:uppercase;letter-spacing:.04em}
+.id{font:12.5px ui-monospace,Menlo,Consolas,monospace;color:var(--m);overflow-wrap:anywhere}
+.e{display:inline-block;padding:2px 8px;border-radius:6px;background:#E6ECF8;color:var(--a);font-size:12px;font-weight:700;white-space:nowrap}
+.e.ok{background:#E5F3EB;color:#1F6B42}.e.mal{background:#FBEDEE;color:#A3242A}.e.av2{background:#FDF3D7;color:#7A5A00}
+.btn{display:inline-flex;align-items:center;gap:6px;min-height:38px;padding:0 13px;border-radius:9px;border:1px solid var(--l);background:#fff;color:var(--n);font-weight:600;cursor:pointer}
+.btn:hover{border-color:var(--a)}.btn.p{background:var(--a);border-color:var(--a);color:#fff}.btn.r{background:var(--r);border-color:var(--r);color:#fff}.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn:focus-visible,nav button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--y);outline-offset:1px}
+.fila{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+form.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}form.g label{display:grid;gap:3px;font-weight:600;font-size:13px}
+input,select,textarea{padding:9px 10px;border:1px solid var(--l);border-radius:9px;background:#fff;width:100%;min-width:0}
+.ancho{grid-column:1/-1}
+.hito{border:1px solid var(--l);border-radius:11px;padding:11px;margin-top:9px}
+.motivo{background:#FBEDEE;color:#8A1F24;border-radius:8px;padding:7px 10px;margin-top:7px;font-size:13px}
+.nota{background:#F3F6FC;border-radius:9px;padding:9px 11px;font-size:13px;margin-top:8px;white-space:pre-wrap}
+#aviso{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);max-width:min(560px,92vw);background:var(--n9);color:#fff;padding:12px 16px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.3);display:none;z-index:50}
+#aviso.mal{background:#8A1F24}
+#entrar{max-width:460px;margin:8vh auto;padding:0 14px}
+.velo{display:none}
+@media (max-width:860px){
+  .app{grid-template-columns:minmax(0,1fr)}#menu{display:block}
+  nav{position:fixed;left:0;top:31px;width:min(280px,86vw);transform:translateX(-105%);transition:transform .2s;z-index:40}
+  body.abierto nav{transform:none}body.abierto .velo{display:block;position:fixed;inset:31px 0 0 0;background:rgba(8,20,51,.45);z-index:35}
+  main{padding:14px 12px 50px}header.t h2{font-size:19px}
+  table.r thead{display:none}table.r tr{display:block;padding:8px 0;border-bottom:1px solid var(--l)}table.r td{display:block;border:0;padding:2px 0}
+  table.r td[data-l]:before{content:attr(data-l) ": ";color:var(--m);font-weight:600;font-size:12px}
+  input,select,textarea{font-size:16px}
+}
+</style></head><body>
+<div class="av" role="note">Desarrollo · datos [DEMO] ficticios · no es un sistema en operación</div>
+<div id="raiz"></div><div class="velo" id="velo"></div><div id="aviso" role="status" aria-live="polite"></div>
+<script>/* Puente de la demostración: las interfaces son las mismas del sistema; aquí sus llamadas a la API
+   se entregan al sistema que corre en esta misma pestaña, en vez de viajar a un servidor. */
+(function () {
+  const arriba = window.parent, real = window.fetch.bind(window), BASE = 'http://sav.local';
+  window.fetch = (entrada, init) => {
+    const u = new URL(typeof entrada === 'string' ? entrada : entrada.url, BASE);
+    return u.origin === BASE ? arriba.__sav(u.pathname + u.search, init || {}) : real(entrada, init);
+  };
+  document.addEventListener('click', async e => {
+    const a = e.target.closest && e.target.closest('a[href]'); if (!a) return;
+    const h = a.getAttribute('href'); if (!h || !h.startsWith('/')) return;
+    e.preventDefault();
+    if (['/', '/consola', '/obra', '/docs'].includes(h)) return arriba.__ir(h);
+    const r = await arriba.__sav(h, {}); let t = await r.text(); try { t = JSON.stringify(JSON.parse(t), null, 2) } catch (x) { }
+    arriba.__mostrar(h, t);
+  }, true);
+})();
+</script><script>
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pesos=v=>v>=1e12?'$'+(v/1e12).toLocaleString('es-CO',{maximumFractionDigits:2})+' billones':'$'+Math.round(v/1e6).toLocaleString('es-CO')+' M';
+const hoy=()=>new Date().toISOString().slice(0,10);
+let TOK=null,YO=null,VISTA='tablero';
+try{TOK=sessionStorage.getItem('sav_tok')}catch(e){}
+function aviso(t,mal){const a=$('#aviso');a.textContent=t;a.className=mal?'mal':'';a.style.display='block';clearTimeout(aviso.t);aviso.t=setTimeout(()=>a.style.display='none',mal?7000:3500)}
+async function api(ruta,metodo='GET',cuerpo){
+  const r=await fetch(ruta,{method:metodo,headers:{...(TOK?{Authorization:'Bearer '+TOK}:{}),...(cuerpo?{'Content-Type':'application/json'}:{})},body:cuerpo?JSON.stringify(cuerpo):undefined});
+  let d=null;try{d=await r.json()}catch(e){}
+  if(r.status===401&&TOK){salir();throw new Error('Su sesión venció')}
+  if(!r.ok){let m=d&&d.detalle?d.detalle:(d&&d.detail?(typeof d.detail==='string'?d.detail:'Revise los datos del formulario'):'Error '+r.status);
+    if(d&&d.regla&&d.regla.regla)m+=' (regla '+d.regla.regla+': '+d.regla.nombre+')';throw new Error(m)}
+  return d}
+const hacer=async(f,ok)=>{try{await f();if(ok)aviso(ok);await pintar()}catch(e){aviso(e.message,true)}};
+const puede=a=>YO&&YO.puede.includes(a);
+function salir(){document.body.classList.remove('abierto');TOK=null;YO=null;try{sessionStorage.removeItem('sav_tok')}catch(e){};arrancar()}
+
+const ROLES={gerente:'Gerente',consejo:'Consejo Directivo',comite:'Comité de contratación',ventanilla:'Líder de ventanilla',interventoria:'Interventoría',fiducoldex:'Fiduciaria',unidad_datos:'Unidad de datos',control_interno:'Control interno',cumplimiento:'Unidad de cumplimiento',ungrd:'UNGRD',observatorio:'Observatorio (lectura)',auditor:'Auditoría (lectura)',atencion:'Atención al ciudadano'};
+function pantallaEntrar(){
+  $('#raiz').innerHTML=`<div id="entrar"><div class="c"><h3 style="font-size:20px">Consola interna</h3>
+  <p class="sub" style="margin:0 0 12px">Ingreso de desarrollo: elija un rol para probar. En producción, el ingreso es con la identidad institucional y doble factor.</p>
+  <form class="g" id="fe" style="grid-template-columns:1fr"><label>Su nombre de usuario<input name="sub" required minlength="2" maxlength="40" value="demo.gerente" autocomplete="username"></label>
+  <label>Rol<select name="rol">${Object.entries(ROLES).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select></label>
+  <button class="btn p" style="justify-content:center">Entrar</button></form></div>
+  <p class="sub" style="text-align:center"><a href="/">Ir al portal público</a> · <a href="/docs">Documentación de la API</a></p></div>`;
+  $('#fe').onsubmit=async e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target));
+    try{TOK=(await api('/auth/token-desarrollo','POST',d)).token;try{sessionStorage.setItem('sav_tok',TOK)}catch(x){};arrancar()}catch(x){aviso(x.message,true)}}}
+
+const MENU=[['tablero','Tablero'],['pagos','Contratos y pagos'],['banderas','Banderas rojas'],['bloqueos','Bloqueos'],['duplicados','Duplicados UNGRD'],['alertas','Alertas'],['atencion','Atención'],['reglas','Reglas activadas'],['nuevo','Registrar'],['corridas','Corridas'],['auditoria','Auditoría']];
+async function arrancar(){
+  if(!TOK)return pantallaEntrar();
+  try{YO=await api('/yo')}catch(e){return pantallaEntrar()}
+  $('#raiz').innerHTML=`<div class="app"><nav id="nav" aria-label="Secciones"><h1>Sistema a la Vista</h1><small>Consola interna</small>
+    ${MENU.map(([k,t])=>`<button data-v="${k}"><span>${t}</span><span class="n" id="n-${k}" hidden></span></button>`).join('')}
+    <div class="quien"><b>${esc(YO.sub)}</b>${esc(ROLES[YO.rol]||YO.rol)}${YO.solo_lectura?' · solo lectura':''}<div style="margin-top:8px"><button id="salir" style="padding:6px 0;color:#F7D27A">Cambiar de usuario</button></div></div></nav>
+    <main><header class="t"><button id="menu" aria-label="Abrir el menú">☰</button><h2 id="tit"></h2><button class="btn" id="rec">Actualizar</button></header><div id="v"></div></main></div>`;
+  $$('nav button[data-v]').forEach(b=>b.onclick=()=>{VISTA=b.dataset.v;document.body.classList.remove('abierto');pintar()});
+  $('#salir').onclick=salir;$('#rec').onclick=()=>pintar();$('#menu').onclick=()=>document.body.classList.toggle('abierto');$('#velo').onclick=()=>document.body.classList.remove('abierto');
+  pintar()}
+async function pintar(){
+  $$('nav button[data-v]').forEach(b=>b.classList.toggle('on',b.dataset.v===VISTA));
+  $('#tit').textContent=MENU.find(m=>m[0]===VISTA)[1];
+  const v=$('#v');
+  try{await V[VISTA](v)}catch(e){v.innerHTML=`<div class="c"><span class="e mal">No se pudo cargar</span> ${esc(e.message)}</div>`}
+  contadores()}
+async function contadores(){try{const [b,q,d,k]=await Promise.all([api('/banderas'),api('/bloqueos'),api('/duplicados'),api('/atencion/casos')]);
+  const p=(k,n)=>{const e=$('#n-'+k);if(e){e.hidden=!n;e.textContent=n}};p('banderas',b.filter(x=>x.estado==='revision').length);p('bloqueos',q.filter(x=>x.vencido).length);p('duplicados',d.filter(x=>x.estado==='revision').length);p('atencion',k.filter(x=>x.estado==='abierto').length)}catch(e){}}
+
+const V={};
+V.tablero=async v=>{
+  const t=await api('/tablero');
+  v.innerHTML=`<div class="k">${t.indicadores.map(i=>`<div class="ki ${i.estado||''}"><small>${esc(i.nombre)}</small><b>${i.valor==null?'Sin dato':i.valor.toLocaleString('es-CO')+(i.unidad==='%'?' %':'')}</b> <span>${i.unidad&&i.unidad!=='%'&&i.valor!=null?esc(i.unidad):''}${i.meta!=null?' · meta '+i.meta.toLocaleString('es-CO'):''}</span></div>`).join('')}</div>
+  <div class="c"><h3>Bitácora</h3><span class="e ${t.bitacora.integra?'ok':'mal'}">${t.bitacora.integra?'Cadena íntegra':'Cadena ROTA en el evento '+t.bitacora.ruptura_en}</span> ${t.bitacora.eventos} eventos<div class="id" style="margin-top:6px">${esc(t.bitacora.ultima_huella||'')}</div></div>
+  <div class="c"><h3>Indicadores que aún no tienen fuente conectada</h3><ul style="margin:0;padding-left:18px">${t.sin_fuente.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`};
+
+V.pagos=async v=>{
+  const cs=await api('/contratos');
+  if(!cs.length){v.innerHTML='<div class="c">Aún no hay contratos. Regístrelos en «Registrar».</div>';return}
+  v.innerHTML=cs.map(c=>`<div class="c"><h3>${esc(c.proyecto)}</h3><div class="id">${esc(c.id_sismo)} · contrato ${c.id} · SECOP II ${esc(c.id_secop||'sin identificador')}</div>
+    <div class="fila" style="margin:8px 0"><b>${esc(c.contratista)}</b><span>${pesos(c.valor_inicial)}${c.adiciones?' + '+pesos(c.adiciones)+' en adiciones':''}</span><span class="e">banda ${esc(c.banda)}</span>
+      <span class="e ${c.publicado?'ok':'mal'}">${c.publicado?'Publicado':'Sin publicar'}</span><span class="e ${c.firmado?'ok':'av2'}">${c.firmado?'Firmado':'Sin firmar'}</span>
+      ${c.avance.vp?`<span class="e ${c.avance.spi<0.9?'mal':'ok'}">SPI ${c.avance.spi.toLocaleString('es-CO')}</span>`:''}
+      ${!c.firmado&&puede('firmar')?`<button class="btn p" data-firmar="${c.id}">Firmar</button>`:''}
+      ${puede('registrar_adicion')?`<button class="btn" data-adic="${c.id}">Registrar adición</button>`:''}</div>
+    ${c.hitos.map(h=>`<div class="hito"><div class="fila"><b>Hito ${h.numero}</b><span>${pesos(h.valor)}</span><span class="e ${h.estado==='pagado'?'ok':h.estado==='devuelto'?'mal':''}">${esc(h.estado)}</span>
+        <span>${h.evidencias} fotos</span>${h.estado==='pagado'?'':`<span class="e ${h.pago.pagable?'ok':'mal'}">${h.pago.estado}</span>`}${h.plazo_pago&&h.estado==='autorizado'?`<span>Plazo de pago: ${h.plazo_pago}</span>`:''}</div>
+      ${h.estado!=='pagado'&&h.pago.motivos.length?`<div class="motivo">${h.pago.motivos.map(m=>esc((m.regla?'Regla '+m.regla+' · ':'')+m.nombre+': '+m.accion)).join('<br>')}</div>`:''}
+      <div class="fila" style="margin-top:8px">
+        ${puede('cargar_evidencia')&&['pendiente','devuelto'].includes(h.estado)?`<button class="btn" data-evid="${h.id}">Cargar foto</button>`:''}
+        ${puede('certificar')&&['pendiente','devuelto'].includes(h.estado)?`<button class="btn p" data-cert="${h.id}">Certificar</button>`:''}
+        ${puede('autorizar')&&h.estado==='certificado'?`<button class="btn p" data-aut="${h.id}">Autorizar pago</button>`:''}
+        ${puede('pagar')&&h.estado==='autorizado'?`<button class="btn p" data-pag="${h.id}">Instruir giro</button>`:''}</div>
+      <div id="fx-${h.id}"></div></div>`).join('')}</div>`).join('');
+  $$('[data-firmar]').forEach(b=>b.onclick=()=>hacer(()=>api(`/contratos/${b.dataset.firmar}/firmar`,'POST'),'Contrato firmado'));
+  $$('[data-aut]').forEach(b=>b.onclick=()=>hacer(()=>api(`/hitos/${b.dataset.aut}/autorizar`,'POST'),'Pago autorizado'));
+  $$('[data-pag]').forEach(b=>b.onclick=()=>hacer(()=>api(`/hitos/${b.dataset.pag}/pagar`,'POST'),'Giro instruido'));
+  $$('[data-adic]').forEach(b=>b.onclick=()=>{const c=b.closest('.c');if($('.fad',c))return;
+    c.insertAdjacentHTML('beforeend',`<form class="g fad nota"><label>Valor de la adición (pesos)<input name="valor" type="number" min="1" required></label><label>¿Aprobada por el comité?<select name="ap"><option value="">No</option><option value="1">Sí</option></select></label><button class="btn p">Guardar adición</button></form>`);
+    $('.fad',c).onsubmit=e=>{e.preventDefault();const d=new FormData(e.target);hacer(()=>api(`/contratos/${b.dataset.adic}/adiciones`,'POST',{valor:+d.get('valor'),aprobada_comite:!!d.get('ap')}),'Adición registrada')}});
+  $$('[data-cert]').forEach(b=>b.onclick=()=>{const z=$('#fx-'+b.dataset.cert);
+    z.innerHTML=`<form class="g nota"><label>Valor ganado acumulado certificado<input name="vg" type="number" min="0" step="any" required></label><button class="btn p">Firmar el acta</button></form>`;
+    $('form',z).onsubmit=e=>{e.preventDefault();hacer(()=>api(`/hitos/${b.dataset.cert}/certificar`,'POST',{valor_ganado:+new FormData(e.target).get('vg')}),'Hito certificado')}});
+  $$('[data-evid]').forEach(b=>b.onclick=()=>{const z=$('#fx-'+b.dataset.evid);
+    z.innerHTML=`<form class="g nota"><label class="ancho">Foto<input name="f" type="file" accept="image/*" capture="environment" required></label><label>Longitud<input name="lon" type="number" step="any" min="-180" max="180" required></label><label>Latitud<input name="lat" type="number" step="any" min="-90" max="90" required></label>
+      <div class="fila ancho"><button type="button" class="btn" data-gps>Usar mi ubicación</button><button class="btn p">Enviar y sellar</button></div></form>`;
+    const f=$('form',z);
+    $('[data-gps]',f).onclick=()=>navigator.geolocation?navigator.geolocation.getCurrentPosition(p=>{f.lon.value=p.coords.longitude;f.lat.value=p.coords.latitude},()=>aviso('No fue posible leer la ubicación; escríbala',true)):aviso('Este navegador no ofrece ubicación',true);
+    f.onsubmit=async e=>{e.preventDefault();const a=f.f.files[0];if(a.size>8e6)return aviso('La foto supera 8 MB',true);
+      const b64=await new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(r.result.split(',')[1]);r.onerror=no;r.readAsDataURL(a)});
+      hacer(async()=>{const x=await api(`/hitos/${b.dataset.evid}/evidencias`,'POST',{contenido_b64:b64,lon:+f.lon.value,lat:+f.lat.value,capturada:new Date(a.lastModified||Date.now()).toISOString()});
+        aviso(`Foto sellada · ${x.en_geocerca?'dentro':'FUERA'} de la geocerca${x.repetida?' · REPETIDA':''}${x.hora_coherente?'':' · hora incoherente'}`,!x.en_geocerca||x.repetida||!x.hora_coherente)})}})};
+
+V.banderas=async v=>{
+  const bs=await api('/banderas');
+  v.innerHTML=`<div class="c"><p class="sub" style="margin:0 0 8px">Una bandera es una señal para revisar. Solo retiene un pago cuando una persona la confirma con motivo escrito.</p>
+  ${bs.length?bs.map(b=>`<div class="hito"><div class="fila"><b>${b.bandera}. ${esc(b.nombre)}</b><span class="e ${b.estado==='confirmada'?'mal':b.estado==='descartada'?'ok':'av2'}">${esc(b.estado)}</span><span class="id">${esc(b.referencia)}</span></div>
+    <div style="margin-top:4px">${esc(b.dato)} · decide: ${esc(b.decide)}</div>${b.motivo?`<div class="nota">Motivo: ${esc(b.motivo)}</div>`:''}
+    <div class="fila" style="margin-top:8px">${puede('ia')?`<button class="btn" data-exp="${b.id}">Explicar con IA</button>`:''}
+      ${b.estado==='revision'&&puede('decidir_bandera')?`<button class="btn r" data-dec="${b.id}" data-c="1">Confirmar</button><button class="btn" data-dec="${b.id}" data-c="">Descartar</button>`:''}</div><div id="bx-${b.id}"></div></div>`).join(''):'No hay banderas. La corrida diaria las calcula.'}</div>`;
+  $$('[data-exp]').forEach(b=>b.onclick=async()=>{try{const r=await api(`/ia/banderas/${b.dataset.exp}/explicar`,'POST');$('#bx-'+b.dataset.exp).innerHTML=`<div class="nota">${esc(r.explicacion)}\n\n— ${esc(r.modelo)} · ${esc(r.nota)}</div>`}catch(e){aviso(e.message,true)}});
+  $$('[data-dec]').forEach(b=>b.onclick=()=>{const z=$('#bx-'+b.dataset.dec),c=!!b.dataset.c;
+    z.innerHTML=`<form class="g nota"><label class="ancho">Motivo de ${c?'la confirmación':'el descarte'} (queda publicado)<textarea name="m" rows="2" required minlength="5"></textarea></label><button class="btn ${c?'r':'p'}">${c?'Confirmar y retener el siguiente pago':'Descartar con motivo'}</button></form>`;
+    $('form',z).onsubmit=e=>{e.preventDefault();hacer(()=>api(`/banderas/${b.dataset.dec}/decidir`,'POST',{confirmar:c,motivo:new FormData(e.target).get('m')}),'Decisión registrada')}})};
+
+V.bloqueos=async v=>{
+  const bs=await api('/bloqueos');
+  v.innerHTML=`<div class="c ts"><table class="r"><thead><tr><th>#</th><th>Proyecto</th><th>Bloqueo</th><th>Dueño</th><th>Abierto</th><th>Nivel</th><th></th></tr></thead><tbody>
+    ${bs.map(b=>`<tr><td data-l="Bloqueo">${b.id}</td><td data-l="Proyecto" class="id">${esc(b.id_sismo)}</td><td>${esc(b.descripcion)}</td><td data-l="Dueño">${esc(b.dueno)}</td><td data-l="Abierto">${b.abierto}</td>
+      <td data-l="Nivel"><span class="e ${b.vencido?'mal':b.nivel>=4?'av2':''}">${b.vencido?'Vencido · Consejo':'Nivel '+b.nivel}</span></td><td>${puede('bloqueos')?`<button class="btn" data-cerrar="${b.id}">Cerrar</button>`:''}</td></tr>`).join('')||'<tr><td colspan="7">No hay bloqueos abiertos.</td></tr>'}</tbody></table></div>
+  ${puede('bloqueos')?`<div class="c"><h3>Abrir un bloqueo</h3><form class="g" id="fb"><label>ID-SISMO<input name="id_sismo" required pattern="SISMO26-\\d{5}-[A-Z]{3}-\\d{6}"></label><label>Dueño<input name="dueno" required minlength="2"></label><label>Fecha<input name="abierto" type="date" value="${hoy()}" required></label><label class="ancho">Qué lo frena<input name="descripcion" required minlength="5"></label><button class="btn p">Abrir bloqueo</button></form></div>`:''}`;
+  $$('[data-cerrar]').forEach(b=>b.onclick=()=>hacer(()=>api(`/bloqueos/${b.dataset.cerrar}/cerrar`,'POST'),'Bloqueo cerrado'));
+  if($('#fb'))$('#fb').onsubmit=e=>{e.preventDefault();hacer(()=>api('/bloqueos','POST',Object.fromEntries(new FormData(e.target))),'Bloqueo abierto')}};
+
+V.alertas=async v=>{
+  const as=await api('/publico/alertas');
+  v.innerHTML=`<div class="c">${as.map(a=>`<div class="hito"><div class="fila"><b>Alerta ${a.id}</b><span class="e">${esc(a.tipo)}</span><span>${esc(a.municipio)}</span><span>Vence: ${esc(a.vence||'según competencia')}</span>
+    <span class="e ${a.estado==='cerrada'?'ok':a.estado==='sin_respuesta'?'mal':'av2'}">${esc(a.estado.replace('_',' '))}</span></div>${a.respuesta?`<div class="nota">${esc(a.respuesta)}</div>`:''}
+    ${['en_plazo','sin_respuesta'].includes(a.estado)&&puede('responder_alerta')?`<form class="g nota" data-resp="${a.id}"><label class="ancho">Respuesta<textarea name="respuesta" rows="2" required minlength="5"></textarea></label><label class="ancho">Evidencia que la respalda (documento, enlace o radicado)<input name="evidencia" required></label><button class="btn p">Responder y cerrar</button></form>`:''}</div>`).join('')||'No hay alertas.'}</div>`;
+  $$('[data-resp]').forEach(f=>f.onsubmit=e=>{e.preventDefault();hacer(()=>api(`/alertas/${f.dataset.resp}/responder`,'POST',Object.fromEntries(new FormData(f))),'Alerta cerrada')})};
+
+V.duplicados=async v=>{
+  const ds=await api('/duplicados');
+  v.innerHTML=`<div class="c"><p class="sub" style="margin:0 0 8px">Proyectos del Fondo que se parecen a una intervención registrada por la UNGRD: mismo sitio (a menos de 300 m), mismo sector o nombre parecido. Es una señal para revisar. Solo retiene pagos cuando una persona la confirma con motivo escrito.</p>
+  ${ds.length?ds.map(d=>`<div class="hito"><div class="fila"><b>${esc(d.id_sismo)}</b><span class="e ${d.nivel==='alto'?'mal':'av2'}">coincidencia ${esc(d.nivel)}</span><span class="e ${d.estado==='confirmado'?'mal':d.estado==='descartado'?'ok':'av2'}">${esc(d.estado==='revision'?'en revisión':d.estado)}</span></div>
+    <div style="margin-top:4px">UNGRD <span class="id">${esc(d.id_ungrd)}</span> · ${esc(d.nombre_ungrd)}</div><div class="sub" style="margin:4px 0 0">${d.motivos.map(esc).join(' · ')} · puntaje ${d.puntaje}</div>
+    ${d.motivo?`<div class="nota">Motivo: ${esc(d.motivo)} — ${esc(d.decidido_por||'')}</div>`:''}
+    ${d.estado==='revision'&&puede('decidir_duplicado')?`<div class="fila" style="margin-top:8px"><button class="btn r" data-dd="${d.id}" data-c="1">Confirmar</button><button class="btn" data-dd="${d.id}" data-c="">Descartar</button></div>`:''}<div id="dx-${d.id}"></div></div>`).join(''):'No hay coincidencias. Se calculan en Corridas.'}</div>`;
+  $$('[data-dd]').forEach(b=>b.onclick=()=>{const z=$('#dx-'+b.dataset.dd),c=!!b.dataset.c;
+    z.innerHTML=`<form class="g nota"><label class="ancho">Motivo de ${c?'la confirmación':'el descarte'}<textarea name="m" rows="2" required minlength="5"></textarea></label><button class="btn ${c?'r':'p'}">${c?'Confirmar y retener los pagos del proyecto':'Descartar con motivo'}</button></form>`;
+    $('form',z).onsubmit=e=>{e.preventDefault();hacer(()=>api(`/duplicados/${b.dataset.dd}/decidir`,'POST',{confirmar:c,motivo:new FormData(e.target).get('m')}),'Decisión registrada')}})};
+
+V.atencion=async v=>{
+  const [ks,docs]=await Promise.all([api('/atencion/casos'),api('/publico/documentos')]),at=puede('atender_casos');
+  v.innerHTML=`<div class="c"><h3>Casos que el asistente pasó a una persona</h3><p class="sub">Llegan por WhatsApp o por la línea telefónica. El número solo lo ve atención y se borra cuando la respuesta se entrega.</p>
+  ${ks.length?ks.map(k=>`<div class="hito"><div class="fila"><b>Caso ${k.id}</b><span class="e">${k.canal==='voz'?'línea telefónica':'WhatsApp'}</span><span>Vence: ${esc(k.vence)}</span><span class="e ${k.estado==='cerrado'?'ok':'av2'}">${esc(k.estado)}</span>${k.estado==='cerrado'?`<span class="e ${k.entregada?'ok':'mal'}">${k.entregada?'respuesta entregada':'respuesta sin entregar'}</span>`:''}</div>
+    ${at?`<div style="margin-top:4px">${esc(k.pregunta)}</div>${k.numero?`<div class="id">${esc(k.numero)}</div>`:''}${k.respuesta?`<div class="nota">${esc(k.respuesta)} — ${esc(k.atendido_por||'')}</div>`:''}`:''}
+    ${at&&k.estado==='abierto'?`<form class="g nota" data-caso="${k.id}"><label class="ancho">Respuesta<textarea name="respuesta" rows="2" required minlength="10"></textarea></label>${k.canal==='voz'?'<label class="ancho" style="display:flex;gap:8px;align-items:center;font-weight:400"><input type="checkbox" name="llamada_hecha" style="width:auto"> Ya llamé a la persona y le di esta respuesta</label>':''}<button class="btn p">${k.canal==='voz'?'Cerrar el caso':'Enviar por WhatsApp y cerrar'}</button></form>`:''}</div>`).join(''):'No hay casos.'}
+  ${at?'':'<p class="sub" style="margin:10px 0 0">Solo atención al ciudadano ve el contenido y responde.</p>'}</div>
+  <div class="c"><h3>Documentos oficiales</h3><p class="sub">Es lo único que el asistente puede citar. Si la respuesta no está aquí, el asistente pasa la pregunta a una persona.</p>
+  ${docs.map(d=>`<div class="hito"><div class="fila"><b>${esc(d.titulo)}</b>${puede('documentos')?`<button class="btn" data-ret="${d.id}">Retirar</button>`:''}</div><div class="sub" style="margin:4px 0 0">${esc(d.texto.slice(0,220))}${d.texto.length>220?'…':''}</div></div>`).join('')||'Aún no hay documentos publicados.'}
+  ${puede('documentos')?`<form class="g nota" id="fdoc"><label class="ancho">Título<input name="titulo" required minlength="5" maxlength="200"></label><label class="ancho">Texto oficial<textarea name="texto" rows="4" required minlength="20"></textarea></label><button class="btn p">Publicar o actualizar</button></form>`:''}</div>`;
+  $$('[data-caso]').forEach(f=>f.onsubmit=e=>{e.preventDefault();const d=new FormData(f);hacer(()=>api(`/atencion/casos/${f.dataset.caso}/cerrar`,'POST',{respuesta:d.get('respuesta'),llamada_hecha:!!d.get('llamada_hecha')}),'Caso cerrado')});
+  $$('[data-ret]').forEach(b=>b.onclick=()=>hacer(()=>api(`/documentos/${b.dataset.ret}/retirar`,'POST'),'Documento retirado'));
+  if($('#fdoc'))$('#fdoc').onsubmit=e=>{e.preventDefault();hacer(()=>api('/documentos','POST',Object.fromEntries(new FormData(e.target))),'Documento publicado')}};
+
+V.reglas=async v=>{
+  const rs=await api('/publico/reglas');
+  v.innerHTML=`<div class="c ts"><table class="r"><thead><tr><th>Regla</th><th>Referencia</th><th>Consecuencia</th><th>Responde</th><th>Vence</th><th>Datos</th></tr></thead><tbody>
+  ${rs.map(a=>`<tr><td><b>${a.regla}. ${esc(a.nombre)}</b></td><td data-l="Referencia" class="id">${esc(a.referencia)}</td><td>${esc(a.accion)}</td><td data-l="Responde">${esc(a.responsable)}</td><td data-l="Vence">${esc(a.vence||'')}</td><td class="id">${esc(JSON.stringify(a.datos))}</td></tr>`).join('')||'<tr><td colspan="6">Ninguna regla se ha disparado.</td></tr>'}</tbody></table></div>`};
+
+V.nuevo=async v=>{
+  const ps=await api('/publico/proyectos');
+  v.innerHTML=`${puede('crear_proyecto')?`<div class="c"><h3>Ficha de proyecto</h3><p class="sub">Si falta un campo, la regla 1 la devuelve y no entra a la agenda.</p>
+  <form class="g" id="fp"><label class="ancho">Nombre<input name="nombre"></label><label>Código DANE del municipio<input name="municipio_dane" inputmode="numeric" maxlength="5"></label><label>Municipio<input name="municipio"></label>
+  <label>Zona<select name="zona"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label>
+  <label>Sector<select name="sector"><option value="VIV">Vivienda</option><option value="INS">Infraestructura social</option><option value="AEV">Agua, energía y vías</option><option value="REC">Reactivación económica</option><option value="APO">Apoyos a hogares</option><option value="ALM">Reconstrucción del alma</option></select></label>
+  <label>Valor (pesos)<input name="valor" type="number" min="1"></label><label>BPIN<input name="bpin"></label><label class="ancho">Prueba de admisibilidad<input name="admisibilidad"></label>
+  <label class="ancho">Polígono de la obra: lon,lat por línea (mínimo tres)<textarea name="poligono" rows="4" placeholder="-75.70,4.80&#10;-75.69,4.80&#10;-75.69,4.81"></textarea></label>
+  <button class="btn p">Radicar ficha</button></form></div>`:''}
+  ${puede('aprobar')?`<div class="c"><h3>Aprobar y registrar un contrato</h3><p class="sub">La plataforma calcula la banda; si no le corresponde a su instancia, lo rechaza y lo registra.</p>
+  <form class="g" id="fc"><label class="ancho">Proyecto<select name="ids" required>${ps.map(p=>`<option value="${esc(p.id_sismo)}">${esc(p.id_sismo)} · ${esc(p.nombre)}</option>`).join('')}</select></label>
+  <label>Contratista<input name="contratista" required minlength="2"></label><label>Identificador en SECOP II<input name="id_secop" placeholder="CO1.PCCNTR…"></label>
+  <label>Valor inicial (pesos)<input name="valor_inicial" type="number" min="1" required></label><label>Oferentes<input name="oferentes" type="number" min="0" value="0"></label>
+  <label>Número de hitos iguales<input name="nh" type="number" min="1" max="24" value="5" required></label><label>¿Incluye inmuebles?<select name="inm"><option value="">No</option><option value="1">Sí</option></select></label>
+  <button class="btn p">Aprobar contrato</button></form></div>`:''}
+  ${!puede('crear_proyecto')&&!puede('aprobar')?'<div class="c">Su rol no registra fichas ni aprueba contratos.</div>':''}`;
+  if($('#fp'))$('#fp').onsubmit=e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target));
+    d.zona=+d.zona;d.valor=d.valor?+d.valor:null;d.cronograma=[{origen:'consola'}];
+    d.poligono=d.poligono.split('\n').map(l=>l.split(',').map(Number)).filter(p=>p.length===2&&p.every(Number.isFinite));
+    hacer(async()=>{const r=await api('/proyectos','POST',d);aviso('Ficha radicada: '+r.id_sismo);e.target.reset()})};
+  if($('#fc'))$('#fc').onsubmit=e=>{e.preventDefault();const d=Object.fromEntries(new FormData(e.target)),n=+d.nh,val=+d.valor_inicial;
+    hacer(async()=>{const r=await api(`/proyectos/${d.ids}/contratos`,'POST',{contratista:d.contratista,id_secop:d.id_secop||null,valor_inicial:val,oferentes:+d.oferentes,inmuebles:!!d.inm,hitos:Array.from({length:n},()=>({valor:val/n}))});
+      aviso('Contrato aprobado · banda '+r.banda);VISTA='pagos'})}};
+
+V.corridas=async v=>{
+  const p=puede('corridas');
+  v.innerHTML=`<div class="c"><h3>Corridas programadas</h3><p class="sub">En producción las lanza un programador cada noche y cada mes. Aquí se pueden ejecutar a mano.</p>
+  <div class="fila"><label style="font-weight:600">Fecha <input id="fc" type="date" value="${hoy()}" style="width:auto"></label>
+  <button class="btn p" data-c="diaria" ${p?'':'disabled'}>Diaria: bloqueos, alertas, banderas y sello</button><button class="btn" data-c="mensual" ${p?'':'disabled'}>Mensual: valor ganado</button><button class="btn" data-c="secop" ${p?'':'disabled'}>Conciliar con SECOP II</button><button class="btn" data-c="satelite" ${p?'':'disabled'}>Revisión satelital del mes</button><button class="btn" data-c="duplicados" ${p?'':'disabled'}>Cruzar con la UNGRD</button></div>
+  <p class="sub" style="margin:10px 0 0">La revisión satelital cubre del día 1 del mes a la fecha elegida y solo las obras de más de 10.000 SMMLV. Consulta el catálogo abierto de Copernicus.</p>
+  ${p?'':'<p class="sub" style="margin:10px 0 0">Solo la unidad de datos ejecuta corridas.</p>'}<div id="rc"></div></div>`;
+  $$('[data-c]').forEach(b=>b.onclick=async()=>{try{const r=await api('/corridas/'+b.dataset.c,'POST',['secop','duplicados'].includes(b.dataset.c)?undefined:b.dataset.c==='satelite'?{desde:$('#fc').value.slice(0,8)+'01',hasta:$('#fc').value}:{fecha:$('#fc').value});$('#rc').innerHTML=`<div class="nota id">${esc(JSON.stringify(r,null,2))}</div>`;contadores()}catch(e){aviso(e.message,true)}})};
+
+V.auditoria=async v=>{
+  const ver=await api('/publico/bitacora/verificar');
+  const pa=['auditor','control_interno','gerente'].includes(YO.rol),pc=['auditor','control_interno'].includes(YO.rol);
+  v.innerHTML=`<div class="c"><h3>Cadena de huellas</h3><span class="e ${ver.integra?'ok':'mal'}">${ver.integra?'Íntegra':'ROTA en el evento '+ver.ruptura_en}</span> ${ver.eventos} eventos recalculados ahora<div class="id" style="margin-top:6px">${esc(ver.ultima_huella||'')}</div></div>
+  <div class="c"><h3>Auditoría continua</h3><p class="sub">Los hallazgos salen de verificaciones deterministas; el modelo solo redacta el resumen.</p><button class="btn p" id="ac" ${pa?'':'disabled'}>Ejecutar</button><div id="ra"></div></div>
+  <div class="c"><h3>Registro de accesos</h3><p class="sub">Cada llamada a la plataforma, sin posibilidad de edición ni borrado.</p><button class="btn" id="ax" ${pc?'':'disabled'}>Ver los últimos 100</button><div id="rx" class="ts"></div></div>`;
+  $('#ac').onclick=async()=>{try{const r=await api('/auditoria/continua');$('#ra').innerHTML=`<div class="nota">${esc(r.informe)}\n\n— ${esc(r.modelo)}</div>${r.hallazgos.map(h=>`<div class="motivo"><b>${esc(h.gravedad)}</b> · ${esc(h.hallazgo)}</div>`).join('')||'<div class="nota">Sin hallazgos.</div>'}`}catch(e){aviso(e.message,true)}};
+  $('#ax').onclick=async()=>{try{const r=await api('/auditoria/accesos?limite=100');$('#rx').innerHTML=`<table class="r" style="margin-top:8px"><thead><tr><th>Cuándo</th><th>Quién</th><th>Rol</th><th>Qué</th><th>Resultado</th></tr></thead><tbody>${r.map(a=>`<tr><td>${esc(String(a.ts).slice(0,19).replace('T',' '))}</td><td data-l="Quién">${esc(a.actor)}</td><td data-l="Rol">${esc(a.rol)}</td><td class="id">${esc(a.metodo)} ${esc(a.ruta)}</td><td data-l="Resultado"><span class="e ${a.estado<400?'ok':'mal'}">${a.estado}</span></td></tr>`).join('')}</tbody></table>`}catch(e){aviso(e.message,true)}}};
+addEventListener('keydown',e=>{if(e.key==='Escape')document.body.classList.remove('abierto')});
+arrancar();
+</script></body></html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>App de obra · Sistema a la Vista</title><meta name="robots" content="noindex"><meta name="theme-color" content="#0B1A3F">
+<link rel="icon" href="data:,">
+<style>
+:root{--n9:#0B1A3F;--n:#12285E;--a:#1B3C8C;--y:#F5C44E;--r:#D6383E;--g:#2F8F5B;--l:#DDE3EE;--m:#66718A}
+*{box-sizing:border-box}body{margin:0;font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#1A2233;background:#EEF1F7;padding-bottom:env(safe-area-inset-bottom)}
+header{background:var(--n9);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:5}header h1{margin:0;font-size:18px}header small{color:#AFC0E6}
+#est{display:flex;gap:8px;align-items:center;padding:9px 16px;font-weight:700;font-size:14px;background:var(--y);color:#3A2B00}#est.on{background:#E5F3EB;color:#1F6B42}
+main{padding:14px;max-width:640px;margin:0 auto}
+.c{background:#fff;border:1px solid var(--l);border-radius:14px;padding:14px;margin-bottom:12px}.c h2{margin:0 0 2px;font-size:16.5px;color:var(--n)}
+.id{font:12.5px ui-monospace,Menlo,monospace;color:var(--m);overflow-wrap:anywhere}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:50px;border-radius:12px;border:0;background:var(--a);color:#fff;font:700 16px system-ui;cursor:pointer;margin-top:10px}
+.btn.s{background:#fff;color:var(--n);border:1px solid var(--l)}.btn:disabled{opacity:.5}
+.btn:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--y);outline-offset:2px}
+label{display:grid;gap:4px;font-weight:600;font-size:14px;margin-top:10px}input,select{font:inherit;font-size:16px;padding:11px;border:1px solid var(--l);border-radius:10px;width:100%}
+.e{display:inline-block;padding:2px 8px;border-radius:6px;font-size:12.5px;font-weight:700;background:#E6ECF8;color:var(--a)}.e.ok{background:#E5F3EB;color:#1F6B42}.e.mal{background:#FBEDEE;color:#A3242A}.e.esp{background:#FDF3D7;color:#7A5A00}
+.q{display:grid;grid-template-columns:64px 1fr;gap:10px;padding:10px 0;border-bottom:1px solid var(--l)}.q:last-child{border:0}.q img{width:64px;height:64px;object-fit:cover;border-radius:8px;background:#ddd}
+.av{font-size:13.5px;border-radius:9px;padding:8px 10px;margin-top:8px}.av.mal{background:#FBEDEE;color:#8A1F24}.av.ok{background:#E5F3EB;color:#1F6B42}.av.inf{background:#F3F6FC;color:#33415E}
+#msg{position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom));background:var(--n9);color:#fff;padding:13px 15px;border-radius:12px;display:none;z-index:9;box-shadow:0 8px 26px rgba(0,0,0,.3)}
+</style></head><body>
+<header><h1>App de obra</h1><small>Versión de desarrollo · el sello de tiempo aún no tiene valor probatorio</small></header>
+<div id="est" role="status"></div><main id="m"></main><div id="msg" role="status" aria-live="polite"></div>
+<script>/* Puente de la demostración: las interfaces son las mismas del sistema; aquí sus llamadas a la API
+   se entregan al sistema que corre en esta misma pestaña, en vez de viajar a un servidor. */
+(function () {
+  const arriba = window.parent, real = window.fetch.bind(window), BASE = 'http://sav.local';
+  window.fetch = (entrada, init) => {
+    const u = new URL(typeof entrada === 'string' ? entrada : entrada.url, BASE);
+    return u.origin === BASE ? arriba.__sav(u.pathname + u.search, init || {}) : real(entrada, init);
+  };
+  document.addEventListener('click', async e => {
+    const a = e.target.closest && e.target.closest('a[href]'); if (!a) return;
+    const h = a.getAttribute('href'); if (!h || !h.startsWith('/')) return;
+    e.preventDefault();
+    if (['/', '/consola', '/obra', '/docs'].includes(h)) return arriba.__ir(h);
+    const r = await arriba.__sav(h, {}); let t = await r.text(); try { t = JSON.stringify(JSON.parse(t), null, 2) } catch (x) { }
+    arriba.__mostrar(h, t);
+  }, true);
+})();
+</script><script>
+const hora=t=>{try{return new Date(t).toLocaleString('es-CO',{dateStyle:'short',timeStyle:'short'})}catch(e){return String(t||'')}};
+const $=s=>document.querySelector(s),esc=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const LS={get:k=>{try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},del:k=>{try{localStorage.removeItem(k)}catch(e){}}};
+let TOK=LS.get('obra_tok'),QUIEN=LS.get('obra_quien'),HITOS=LS.get('obra_hitos')||[],SINC=false;
+function msg(t){const m=$('#msg');m.textContent=t;m.style.display='block';clearTimeout(msg.t);msg.t=setTimeout(()=>m.style.display='none',4200)}
+
+// ---- cola local (IndexedDB): las fotos esperan aquí hasta que haya señal
+const bd=new Promise((ok,no)=>{const r=indexedDB.open('obra',1);r.onupgradeneeded=()=>r.result.createObjectStore('cola',{keyPath:'id',autoIncrement:true});r.onsuccess=()=>ok(r.result);r.onerror=()=>no(r.error)});
+const tx=async(modo,f)=>{const d=await bd;return new Promise((ok,no)=>{const t=d.transaction('cola',modo),r=f(t.objectStore('cola'));t.oncomplete=()=>ok(r.result);t.onerror=()=>no(t.error)})};
+const cola={todas:()=>tx('readonly',s=>s.getAll()),poner:x=>tx('readwrite',s=>s.put(x)),quitar:id=>tx('readwrite',s=>s.delete(id))};
+
+// ---- geocerca (misma regla que el servidor) y huella
+function dentro(p,pol){let a=false;for(let i=0,j=pol.length-1;i<pol.length;j=i++){const[xi,yi]=pol[i],[xj,yj]=pol[j];if((yi>p[1])!==(yj>p[1])&&p[0]<(xj-xi)*(p[1]-yi)/(yj-yi)+xi)a=!a}return a}
+const hex=b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');
+const b64=b=>{let s='';const u=new Uint8Array(b);for(let i=0;i<u.length;i+=32768)s+=String.fromCharCode.apply(null,u.subarray(i,i+32768));return btoa(s)};
+async function reducir(archivo){   // máximo 1600 px: menos datos para subir con mala señal
+  try{const im=await createImageBitmap(archivo),k=Math.min(1,1600/Math.max(im.width,im.height));if(k===1&&archivo.size<600000)return archivo;
+    const c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+    return await new Promise(ok=>c.toBlob(b=>ok(b||archivo),'image/jpeg',0.82))}catch(e){return archivo}}
+const ubicacion=()=>new Promise((ok,no)=>navigator.geolocation?navigator.geolocation.getCurrentPosition(p=>ok(p.coords),e=>no(e),{enableHighAccuracy:true,timeout:20000,maximumAge:0}):no(new Error('sin GPS')));
+
+async function api(ruta,metodo='GET',cuerpo){
+  const r=await fetch(ruta,{method:metodo,headers:{...(TOK?{Authorization:'Bearer '+TOK}:{}),...(cuerpo?{'Content-Type':'application/json'}:{})},body:cuerpo?JSON.stringify(cuerpo):undefined});
+  let d=null;try{d=await r.json()}catch(e){}
+  return {ok:r.ok,estado:r.status,d}}
+
+async function estado(){const n=(await cola.todas()).filter(x=>x.estado==='en_cola').length,e=$('#est');
+  e.className=navigator.onLine?'on':'';e.textContent=(navigator.onLine?'Con conexión':'Sin conexión')+' · '+(n?n+(n===1?' foto en cola':' fotos en cola'):'nada pendiente por enviar')}
+
+async function traerHitos(){if(!navigator.onLine||!TOK)return;try{const r=await api('/obra/hitos');if(r.ok){HITOS=r.d;LS.set('obra_hitos',HITOS)}else if(r.estado===401){TOK=null;LS.del('obra_tok')}}catch(e){}}
+
+async function sincronizar(){
+  if(SINC||!navigator.onLine||!TOK)return;SINC=true;let env=0,rech=0;
+  try{for(const x of (await cola.todas()).filter(x=>x.estado==='en_cola')){
+    let r;try{r=await api(`/hitos/${x.hito}/evidencias`,'POST',{contenido_b64:x.b64,lon:x.lon,lat:x.lat,capturada:x.capturada,huella_dispositivo:x.huella})}catch(e){break}   // sin red: se reintenta después
+    if(r.ok){env++;await cola.poner({...x,b64:null,estado:'enviada',resp:{sello:r.d.sello&&r.d.sello.ts,geo:r.d.en_geocerca,hora:r.d.hora_coherente,rep:r.d.repetida}})}
+    else if(r.estado===401){TOK=null;LS.del('obra_tok');msg('Su sesión venció. Las fotos siguen guardadas; ingrese de nuevo.');break}
+    else if(r.estado>=500||r.estado===429)break
+    else{rech++;await cola.poner({...x,estado:'rechazada',error:(r.d&&r.d.detalle)||'El servidor no la aceptó ('+r.estado+')'})}}
+  }finally{SINC=false}
+  if(env||rech){msg(`${env} enviada${env===1?'':'s'} y sellada${env===1?'':'s'}${rech?' · '+rech+' rechazada'+(rech===1?'':'s'):''}`);await traerHitos()}
+  pintar()}
+
+async function capturar(h,archivo){
+  const crudo=await archivo.arrayBuffer();   // se lee de inmediato: Safari suelta el archivo si se espera
+  const blob=await reducir(new Blob([crudo],{type:archivo.type})),buf=await blob.arrayBuffer();
+  let c;try{c=await ubicacion()}catch(e){console.warn('ubicacion',e&&e.code,e&&e.message);msg('No hay ubicación. Active el GPS y los permisos, y vuelva a tomar la foto.');return}
+  const huella=hex(await crypto.subtle.digest('SHA-256',buf)),fuera=h.poligono&&!dentro([c.longitude,c.latitude],h.poligono);
+  await cola.poner({hito:h.hito,id_sismo:h.id_sismo,numero:h.numero,b64:b64(buf),mini:await miniatura(blob),lon:c.longitude,lat:c.latitude,precision:Math.round(c.accuracy),capturada:new Date().toISOString(),huella,fuera,estado:'en_cola'});
+  msg(fuera?'Guardada, pero su ubicación está FUERA del polígono de la obra.':'Foto guardada en el teléfono. Se envía cuando haya señal.');
+  pintar();sincronizar()}
+async function miniatura(blob){try{const im=await createImageBitmap(blob),c=document.createElement('canvas');c.width=c.height=96;const s=Math.min(im.width,im.height);c.getContext('2d').drawImage(im,(im.width-s)/2,(im.height-s)/2,s,s,0,0,96,96);return c.toDataURL('image/jpeg',0.6)}catch(e){return ''}}
+
+async function pintar(){
+  estado();const m=$('#m');
+  if(!TOK){m.innerHTML=`<div class="c"><h2>Ingreso</h2><p class="id" style="font-family:inherit">Ingreso de desarrollo. Necesita señal solo para entrar la primera vez.</p>
+    <form id="fe"><label>Usuario de la interventoría<input name="sub" required minlength="2" maxlength="40" autocomplete="username" value="${esc(QUIEN||'')}"></label><button class="btn">Entrar</button></form></div>`;
+    $('#fe').onsubmit=async e=>{e.preventDefault();const sub=new FormData(e.target).get('sub');
+      try{const r=await api('/auth/token-desarrollo','POST',{sub,rol:'interventoria'});if(!r.ok)throw 0;TOK=r.d.token;QUIEN=sub;LS.set('obra_tok',TOK);LS.set('obra_quien',sub);await traerHitos();pintar();sincronizar()}catch(x){msg('No fue posible entrar. Revise la señal.')}};return}
+  const q=await cola.todas();
+  m.innerHTML=`${HITOS.length?HITOS.map(h=>{const mias=q.filter(x=>x.hito===h.hito&&x.estado==='en_cola').length;return `<div class="c"><h2>Hito ${h.numero} · ${esc(h.proyecto)}</h2><div class="id">${esc(h.id_sismo)} · ${esc(h.municipio)}</div>
+      <div style="margin-top:6px"><span class="e ${h.estado==='devuelto'?'mal':''}">${esc(h.estado)}</span> <span class="e ok">${h.evidencias} en el servidor</span> ${mias?`<span class="e esp">${mias} en cola</span>`:''}</div>
+      <label class="btn" style="margin-top:10px">Tomar foto<input type="file" accept="image/*" capture="environment" data-h="${h.hito}" hidden></label></div>`}).join(''):`<div class="c">No hay hitos que esperen evidencia${navigator.onLine?'.':' en este teléfono. Conéctese una vez para descargarlos.'}</div>`}
+  <div class="c"><h2>Fotos de este teléfono</h2>${q.length?q.slice().reverse().map(x=>`<div class="q">${x.mini?`<img src="${x.mini}" alt="">`:'<div></div>'}<div><b>Hito ${x.numero}</b> <span class="e ${x.estado==='enviada'?'ok':x.estado==='rechazada'?'mal':'esp'}">${x.estado==='en_cola'?'en cola':x.estado}</span>
+      <div class="id">${esc(hora(x.capturada))} · ±${x.precision} m · ${esc(x.huella.slice(0,12))}…</div>
+      ${x.fuera?'<div class="av mal">Tomada fuera del polígono de la obra.</div>':''}${x.error?`<div class="av mal">${esc(x.error)}</div>`:''}
+      ${x.resp?`<div class="av ${x.resp.geo&&x.resp.hora&&!x.resp.rep?'ok':'mal'}">Sellada ${esc(hora(x.resp.sello))} · ${x.resp.geo?'dentro de la geocerca':'FUERA de la geocerca'}${x.resp.rep?' · REPETIDA':''}${x.resp.hora?'':' · hora incoherente'}</div>`:''}
+      ${x.estado!=='en_cola'?`<button class="btn s" style="min-height:36px;margin-top:6px;font-size:14px" data-q="${x.id}">Quitar de la lista</button>`:''}</div></div>`).join(''):'<div class="av inf">Aún no hay fotos.</div>'}
+    <button class="btn s" id="sinc">Enviar lo pendiente</button></div>
+  <div class="c"><div class="id" style="font-family:inherit">Sesión: ${esc(QUIEN)} · interventoría</div><button class="btn s" id="salir">Salir</button></div>`;
+  document.querySelectorAll('input[data-h]').forEach(i=>i.onchange=async()=>{const h=HITOS.find(x=>x.hito===+i.dataset.h),f=i.files[0];if(!f)return;try{await capturar(h,f)}catch(e){console.warn('captura',e&&e.name,e&&e.message);msg('No fue posible guardar la foto. Tómela de nuevo.')}finally{i.value=''}});
+  document.querySelectorAll('[data-q]').forEach(b=>b.onclick=async()=>{await cola.quitar(+b.dataset.q);pintar()});
+  $('#sinc').onclick=()=>navigator.onLine?sincronizar():msg('Sin conexión. Las fotos siguen guardadas.');
+  $('#salir').onclick=async()=>{const n=(await cola.todas()).filter(x=>x.estado==='en_cola').length;if(n){msg('Hay '+n+' fotos sin enviar. Envíelas antes de salir.');return}TOK=null;LS.del('obra_tok');pintar()}}
+
+addEventListener('online',()=>{estado();traerHitos().then(sincronizar)});addEventListener('offline',estado);
+
+traerHitos().then(()=>{pintar();sincronizar()});
+</script></body></html>
